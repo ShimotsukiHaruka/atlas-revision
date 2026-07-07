@@ -1,140 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Atlas — IB Exam Preparation</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas — Smarter IB Revision</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(124,58,237,.1)}50%{box-shadow:0 0 40px rgba(124,58,237,.2)}}
+  
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{--purple:#7c3aed;--amber:#f59e0b;--dark:#0f0a1a;--card:#fff;--bg:#f4f2f8;--gray:#8191AA;--light:#e2dff0;--radius:12px;--font:'Plus Jakarta Sans','Inter',sans-serif;--nav-height:66px}
-  body{font-family:var(--font);background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
+  :root{
+    --pri:#7c3aed;--pri-light:#a78bfa;--pri-dark:#5b21b6;
+    --amber:#f59e0b;--amber-light:#fbbf24;
+    --dark:#0c0a1a;--dark-2:#1a1440;
+    --white:#fff;--bg:#f5f3ff;--bg-card:rgba(255,255,255,.85);
+    --gray:#8191AA;--light:#e2dff0;--border:rgba(124,58,237,.08);
+    --radius:14px;--radius-lg:20px;
+    --font:'Plus Jakarta Sans','Inter',-apple-system,sans-serif;
+    --font-heading:'Inter','Plus Jakarta Sans',-apple-system,sans-serif;
+    --shadow:0 4px 24px rgba(124,58,237,.06);
+    --shadow-h:0 12px 40px rgba(124,58,237,.1);
+    --nav-h:68px;
+    --glass:rgba(255,255,255,.6);
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font);background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   a{text-decoration:none;color:inherit}
+  ::selection{background:var(--pri);color:var(--white)}
 
-  /* 3D canvas background */
-  #three-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.15}
-  .content-wrapper{position:relative;z-index:1}
+  /* 3D Canvas */
+  #three-canvas{position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;opacity:.12}
 
-  /* SME BANNER */
-  .banner{background:var(--purple);color:#fff;text-align:center;padding:10px 16px;font-size:13px;font-weight:500;position:relative;z-index:2}
-  .banner strong{text-decoration:underline;cursor:pointer;opacity:.9}
+  /* ── BANNER ── */
+  .banner{position:relative;z-index:101;background:linear-gradient(135deg,var(--pri),var(--pri-dark));color:var(--white);text-align:center;padding:10px 16px;font-size:13px;font-weight:500}
+  .banner strong{opacity:.85;cursor:pointer;transition:opacity .2s}
+  .banner strong:hover{opacity:1;text-decoration:underline}
 
-  /* RV NAV */
-  nav{background:rgba(15,10,26,.92);backdrop-filter:blur(12px);position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.05)}
-  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:0 28px;height:var(--nav-height)}
-  .logo{font-family:'Manrope',sans-serif;font-weight:800;font-size:20px;color:#fff;letter-spacing:-.4px;display:flex;align-items:center;gap:8px}
-  .logo .ic{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--purple),#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;animation:float 3s ease-in-out infinite}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  /* ── NAV ── */
+  nav{position:sticky;top:0;z-index:100;background:rgba(12,10,26,.88);backdrop-filter:blur(16px) saturate(1.5);border-bottom:1px solid rgba(255,255,255,.04)}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:0 28px;height:var(--nav-h)}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:var(--white);letter-spacing:-.4px}
+  .logo .ic{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--pri),var(--pri-light));display:flex;align-items:center;justify-content:center;font-size:17px;color:var(--white)}
   .logo span{color:var(--amber)}
 
-  .role{display:flex;background:rgba(255,255,255,.06);border-radius:30px;padding:2px;font-size:12px;font-weight:600;font-family:var(--font)}
-  .role div{padding:5px 16px;border-radius:28px;cursor:pointer;color:rgba(255,255,255,.4);transition:all .2s}
-  .role div.active{background:rgba(255,255,255,.1);color:#fff}
-  .role div:hover{color:#fff}
+  .role-switch{display:flex;background:rgba(255,255,255,.06);border-radius:30px;padding:3px;gap:2px;font-size:12px;font-weight:600}
+  .role-switch div{padding:5px 16px;border-radius:27px;cursor:pointer;color:rgba(255,255,255,.4);transition:all .25s}
+  .role-switch div.active{background:rgba(255,255,255,.1);color:var(--white)}
+  .role-switch div:hover{color:rgba(255,255,255,.7)}
 
-  .search{flex:1;max-width:280px;position:relative}
-  .search input{width:100%;padding:9px 14px 9px 36px;border-radius:20px;border:none;font-size:13px;background:rgba(255,255,255,.08);color:#fff;outline:none;font-family:var(--font);transition:all .2s}
-  .search input:focus{background:rgba(255,255,255,.14)}
-  .search input::placeholder{color:rgba(255,255,255,.3)}
-  .search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.4}
+  .nav-search{position:relative;flex:1;max-width:280px}
+  .nav-search input{width:100%;padding:9px 14px 9px 36px;border-radius:20px;border:none;font-size:13px;background:rgba(255,255,255,.06);color:var(--white);outline:none;font-family:var(--font);transition:all .25s}
+  .nav-search input:focus{background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+  .nav-search input::placeholder{color:rgba(255,255,255,.25)}
+  .nav-search .ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.3;pointer-events:none}
 
-  .links{display:flex;gap:18px;font-size:13px;font-weight:500}
-  .links a{color:rgba(255,255,255,.5);transition:.2s;position:relative}
-  .links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--amber);transition:width .2s}
-  .links a:hover{color:#fff}
-  .links a:hover::after{width:100%}
+  .nav-links{display:flex;gap:20px;font-size:13px;font-weight:500}
+  .nav-links a{color:rgba(255,255,255,.45);position:relative;transition:color .2s}
+  .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--amber);transition:width .25s;border-radius:2px}
+  .nav-links a:hover{color:var(--white)}
+  .nav-links a:hover::after{width:100%}
 
-  .btns{display:flex;gap:8px}
-  .btns .btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:var(--font);transition:all .2s}
-  .btns .log{background:rgba(255,255,255,.06);color:rgba(255,255,255,.8)}
-  .btns .log:hover{background:rgba(255,255,255,.12)}
-  .btns .join{background:var(--amber);color:var(--dark)}
-  .btns .join:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(245,158,11,.3)}
+  .nav-btns{display:flex;gap:8px}
+  .btn{padding:8px 20px;border-radius:10px;font-size:12px;font-weight:700;border:none;cursor:pointer;font-family:var(--font);transition:all .25s;letter-spacing:.2px}
+  .btn-log{background:rgba(255,255,255,.06);color:rgba(255,255,255,.75)}
+  .btn-log:hover{background:rgba(255,255,255,.1)}
+  .btn-join{background:linear-gradient(135deg,var(--amber),var(--amber-light));color:var(--dark)}
+  .btn-join:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,158,11,.3)}
 
-  /* RV HERO with glow */
-  .hero{background:linear-gradient(135deg,var(--dark),#1a1040);padding:64px 28px 48px;text-align:center;position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;top:-40%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(124,58,237,.08),transparent 60%)}
-  .hero::after{content:'';position:absolute;bottom:-30%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.05),transparent 60%)}
-  .hero h1{font-family:'Manrope',sans-serif;font-size:44px;font-weight:800;line-height:1.08;color:#fff;position:relative;letter-spacing:-.5px}
-  .hero h1 span{background:linear-gradient(135deg,var(--amber),#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hero p{font-size:16px;color:rgba(255,255,255,.5);margin:14px auto 28px;max-width:480px;position:relative;line-height:1.6}
-  .hero .srch{position:relative;max-width:460px;margin:0 auto}
-  .hero .srch input{width:100%;padding:14px 18px 14px 44px;border-radius:40px;border:none;font-size:14px;background:rgba(255,255,255,.08);color:#fff;outline:none;font-family:var(--font);backdrop-filter:blur(8px);transition:all .3s}
-  .hero .srch input:focus{background:rgba(255,255,255,.14);box-shadow:0 0 0 3px rgba(124,58,237,.2)}
-  .hero .srch input::placeholder{color:rgba(255,255,255,.3)}
-  .hero .srch .ic{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.4}
+  /* ── HERO ── */
+  .hero{position:relative;z-index:1;background:linear-gradient(135deg,var(--dark),var(--dark-2));padding:72px 28px 56px;text-align:center;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:900px;height:900px;background:radial-gradient(circle,rgba(124,58,237,.06),transparent 60%)}
+  .hero::after{content:'';position:absolute;bottom:-40%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.04),transparent 60%)}
+  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:6px 14px;border-radius:30px;font-size:12px;color:rgba(255,255,255,.5);margin-bottom:20px;animation:slideDown .6s}
+  .hero-badge span{color:var(--amber)}
+  .hero h1{font-family:var(--font-heading);font-size:48px;font-weight:800;line-height:1.06;color:var(--white);letter-spacing:-1px;animation:fadeUp .8s}
+  .hero h1 span{background:linear-gradient(135deg,var(--pri-light),var(--amber),var(--amber-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p{font-size:17px;color:rgba(255,255,255,.45);margin:16px auto 32px;max-width:500px;line-height:1.6;animation:fadeUp .8s .1s both}
+  .hero .h-search{position:relative;max-width:480px;margin:0 auto;animation:fadeUp .8s .2s both}
+  .hero .h-search input{width:100%;padding:15px 20px 15px 48px;border-radius:40px;border:none;font-size:14px;background:rgba(255,255,255,.06);color:var(--white);outline:none;font-family:var(--font);backdrop-filter:blur(8px);transition:all .3s}
+  .hero .h-search input:focus{background:rgba(255,255,255,.1);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+  .hero .h-search input::placeholder{color:rgba(255,255,255,.25)}
+  .hero .h-search .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.3;pointer-events:none}
+  .hero .h-stats{display:flex;justify-content:center;gap:48px;margin-top:40px;animation:fadeUp .8s .3s both}
+  .hero .h-stats .n{font-size:32px;font-weight:800;color:var(--white);font-family:var(--font-heading)}
+  .hero .h-stats .n span{color:var(--amber)}
+  .hero .h-stats .l{font-size:13px;color:rgba(255,255,255,.35);margin-top:2px}
 
-  .hero-stats{display:flex;justify-content:center;gap:40px;margin-top:36px;position:relative}
-  .hero-stats .n{font-size:30px;font-weight:800;color:#fff;font-family:'Manrope',sans-serif}
-  .hero-stats .n span{color:var(--amber)}
-  .hero-stats .l{font-size:13px;color:rgba(255,255,255,.35);margin-top:2px}
-
-  /* SME CONTENT + RV CARDS */
-  .content{max-width:1200px;margin:0 auto;padding:32px 28px 40px;display:grid;grid-template-columns:1fr 320px;gap:28px;position:relative}
+  /* ── CONTENT ── */
+  .content{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:36px 28px 48px;display:grid;grid-template-columns:1fr 320px;gap:28px}
   @media(max-width:900px){.content{grid-template-columns:1fr}}
 
-  .main h2{font-size:22px;font-weight:700;margin-bottom:4px}
+  .main h2{font-size:22px;font-weight:800;margin-bottom:4px}
   .main .sub{font-size:13px;color:var(--gray);margin-bottom:18px}
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
-  .card{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(226,223,240,.5);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all .3s}
-  .card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(124,58,237,.12);border-color:rgba(124,58,237,.3)}
-  .card .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
-  .card .ic.c1{background:rgba(124,58,237,.1);color:var(--purple)}
-  .card .ic.c2{background:rgba(245,158,11,.1);color:#b86b00}
-  .card .ic.c3{background:rgba(16,185,129,.1);color:#059669}
-  .card .ic.c4{background:rgba(139,92,246,.1);color:#7c3aed}
-  .card h3{font-size:14px;font-weight:700;margin-bottom:2px}
-  .card .meta{font-size:12px;color:var(--gray);margin-bottom:6px}
-  .card .bar{height:5px;background:rgba(0,0,0,.05);border-radius:3px;overflow:hidden;margin:8px 0 4px}
-  .card .bar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--amber));border-radius:3px;transition:width 1.5s ease}
+  .filter-row{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+  .filter-row .pill{padding:6px 16px;border:1px solid var(--border);border-radius:24px;font-size:12px;font-weight:600;cursor:pointer;color:var(--gray);background:var(--bg-card);transition:all .2s}
+  .filter-row .pill.active{background:var(--pri);color:var(--white);border-color:var(--pri)}
+  .filter-row .pill:hover{border-color:var(--pri);color:var(--pri)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .card{background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1);animation:fadeUp .5s both}
+  .card:hover{transform:translateY(-6px);box-shadow:var(--shadow-h);border-color:rgba(124,58,237,.2)}
+  .card .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:12px}
+  .card .ic.c1{background:linear-gradient(135deg,rgba(124,58,237,.1),rgba(167,139,250,.05));color:var(--pri)}
+  .card .ic.c2{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(251,191,36,.05));color:#b86b00}
+  .card .ic.c3{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(52,211,153,.05));color:#059669}
+  .card .ic.c4{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(167,139,250,.05));color:#7c3aed}
+  .card .ic.c5{background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(244,114,182,.05));color:#db2777}
+  .card .ic.c6{background:linear-gradient(135deg,rgba(6,182,212,.1),rgba(34,211,238,.05));color:#0891b2}
+  .card h3{font-size:15px;font-weight:700;margin-bottom:3px}
+  .card .meta{font-size:12px;color:var(--gray);margin-bottom:8px}
+  .card .bar{height:6px;background:rgba(0,0,0,.04);border-radius:4px;overflow:hidden;margin:10px 0 4px}
+  .card .bar-f{height:100%;border-radius:4px;transition:width 1.8s cubic-bezier(.22,1,.36,1)}
+  .card .bar-f.g1{background:linear-gradient(90deg,var(--pri),var(--pri-light))}
+  .card .bar-f.g2{background:linear-gradient(90deg,var(--amber),var(--amber-light))}
+  .card .bar-f.g3{background:linear-gradient(90deg,#10b981,#34d399)}
   .card .stat{font-size:11px;color:var(--gray);display:flex;justify-content:space-between}
-  .card .badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;margin-top:6px;background:rgba(124,58,237,.08);color:var(--purple)}
+  .card .badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:6px;font-weight:700;margin-top:8px;background:rgba(124,58,237,.08);color:var(--pri)}
 
-  /* SME SIDEBAR */
-  .sidebox{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(226,223,240,.5);border-radius:var(--radius);padding:22px;margin-bottom:14px}
+  /* ── SIDEBAR ── */
+  .sidebox{background:var(--bg-card);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;animation:fadeUp .5s .2s both}
   .sidebox h3{font-size:15px;font-weight:700;margin-bottom:8px}
-  .sidebox p{font-size:13px;color:var(--gray);line-height:1.5}
-  .sidebox .price{font-size:30px;font-weight:800;color:var(--purple);margin:8px 0}
+  .sidebox p{font-size:13px;color:var(--gray);line-height:1.5;margin-bottom:4px}
+  .sidebox .price{font-size:32px;font-weight:800;color:var(--pri);margin:10px 0}
   .sidebox .price small{font-size:13px;font-weight:400;color:var(--gray)}
-  .sidebox .btn-block{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);margin-top:10px;background:linear-gradient(135deg,var(--purple),#a78bfa);color:#fff;transition:all .2s}
-  .sidebox .btn-block:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(124,58,237,.3)}
-  .sidebox ul{list-style:none;padding:10px 0}
-  .sidebox ul li{padding:4px 0;font-size:13px;display:flex;align-items:center;gap:8px}
-  .sidebox ul li::before{content:'✓';background:linear-gradient(135deg,var(--purple),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:700}
+  .sidebox .btn-b{width:100%;padding:13px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);margin-top:12px;transition:all .25s}
+  .sidebox .btn-pri{background:linear-gradient(135deg,var(--pri),var(--pri-dark));color:var(--white)}
+  .sidebox .btn-pri:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,.3)}
+  .sidebox ul{list-style:none;padding:12px 0}
+  .sidebox ul li{padding:5px 0;font-size:13px;display:flex;align-items:center;gap:8px;color:var(--dark)}
+  .sidebox ul li::before{content:'✦';background:linear-gradient(135deg,var(--pri),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:12px}
 
-  /* TESTIMONIAL */
-  .testi{max-width:650px;margin:0 auto 40px;padding:0 28px;text-align:center}
-  .testi blockquote{font-size:17px;line-height:1.6;color:var(--gray);font-style:italic;position:relative}
-  .testi blockquote::before{content:'"';font-size:48px;background:linear-gradient(135deg,var(--purple),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;font-weight:800;margin-bottom:-16px;opacity:.4}
-  .testi cite{display:block;margin-top:12px;font-size:13px;font-weight:600;color:var(--dark);font-style:normal}
+  /* ── FEATURES ── */
+  .features{position:relative;z-index:1;background:var(--white);border-top:1px solid var(--border);padding:48px 28px}
+  .feat-inner{max-width:1000px;margin:0 auto}
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+  .feat-card{padding:22px;border-radius:var(--radius-lg);background:var(--bg);transition:all .3s;border:1px solid transparent}
+  .feat-card:hover{border-color:var(--border);transform:translateY(-3px);box-shadow:var(--shadow)}
+  .feat-card .fc{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(245,158,11,.08));display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+  .feat-card h3{font-size:14px;font-weight:700;margin-bottom:4px}
+  .feat-card p{font-size:12px;color:var(--gray);line-height:1.5}
+
+  /* ── TESTIMONIAL ── */
+  .testi{position:relative;z-index:1;max-width:620px;margin:40px auto;padding:0 28px;text-align:center}
+  .testi blockquote{font-size:17px;line-height:1.7;color:var(--gray);font-style:italic;position:relative}
+  .testi blockquote::before{content:'"';font-size:56px;background:linear-gradient(135deg,var(--pri),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;font-weight:800;margin-bottom:-20px;opacity:.3}
+  .testi cite{display:block;margin-top:14px;font-size:14px;font-weight:600;color:var(--dark);font-style:normal}
   .testi cite span{color:var(--gray);font-weight:400}
 
-  /* FOOTER */
-  footer{background:var(--dark);color:rgba(255,255,255,.5);padding:40px 28px 28px}
-  .footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-  .footer-inner h4{color:#fff;font-size:13px;font-weight:700;margin-bottom:8px}
-  .footer-inner a{display:block;font-size:12px;padding:3px 0;transition:.2s}
-  .footer-inner a:hover{color:var(--amber)}
-  .foot-bottom{max-width:1000px;margin:20px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);font-size:11px;text-align:center}
+  /* ── FOOTER ── */
+  footer{position:relative;z-index:1;background:var(--dark);color:rgba(255,255,255,.4);padding:48px 28px 28px}
+  .foot-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+  .foot-inner h4{color:var(--white);font-size:13px;font-weight:700;margin-bottom:10px}
+  .foot-inner a{display:block;font-size:12px;padding:4px 0;transition:color .2s}
+  .foot-inner a:hover{color:var(--amber)}
+  .foot-bot{max-width:1000px;margin:24px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.04);font-size:12px;text-align:center}
 
   @media(max-width:768px){
-    .links,.role{display:none}
-    .hero h1{font-size:28px}
+    .nav-links,.role-switch{display:none}
+    .hero h1{font-size:30px}
     .grid{grid-template-columns:repeat(2,1fr)}
-    .hero-stats{gap:20px;flex-wrap:wrap}
-    .footer-inner{grid-template-columns:repeat(2,1fr)}
-    .search{max-width:160px}
+    .hero .h-stats{gap:24px;flex-wrap:wrap}
+    .feat-grid{grid-template-columns:1fr}
+    .foot-inner{grid-template-columns:repeat(2,1fr)}
+    .nav-search{max-width:160px}
   }
 </style>
 </head>
 <body>
 
 <canvas id="three-canvas"></canvas>
-<div class="content-wrapper">
 
-<div class="banner">🎓 New: 2026 IB Past Papers &amp; Mark Schemes Released — <strong>Browse Now →</strong></div>
+<div class="banner">🎓 2026 IB Past Papers &amp; Mark Schemes Now Available — <strong>Browse the Collection →</strong></div>
 
 <nav>
   <div class="nav-inner">
@@ -142,35 +182,36 @@
       <div class="ic">✦</div>
       Atlas<span>.</span>
     </div>
-    <div class="role">
+    <div class="role-switch">
       <div class="active">Student</div>
       <div>Teacher</div>
     </div>
-    <div class="search">
-      <span class="ic">🔍</span>
-      <input placeholder="Search subjects, topics...">
+    <div class="nav-search">
+      <span class="ico">🔍</span>
+      <input placeholder="Search any subject...">
     </div>
-    <div class="links">
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
       <a href="#">Subjects</a>
-      <a href="#">Exam Boards</a>
-      <a href="#">Past Papers</a>
+      <a href="#">Exams</a>
       <a href="#">Progress</a>
     </div>
-    <div class="btns">
-      <button class="btn log">Log In</button>
-      <button class="btn join">Join Free</button>
+    <div class="nav-btns">
+      <button class="btn btn-log">Sign In</button>
+      <button class="btn btn-join">Get Started</button>
     </div>
   </div>
 </nav>
 
 <div class="hero">
-  <h1>IB Exam Preparation,<br><span>Simplified</span></h1>
-  <p>Past papers, topic questions, video walkthroughs — everything you need for IB success</p>
-  <div class="srch">
-    <span class="ic">🔍</span>
-    <input placeholder="Search for a subject or topic...">
+  <div class="hero-badge">🔥 New: AI-Powered Exam Analysis <span>Learn More →</span></div>
+  <h1>IB Revision,<br>Engineered for <span>Excellence</span></h1>
+  <p>Past papers, topic mastery, video walkthroughs, and AI-driven progress tracking — everything you need for a 45.</p>
+  <div class="h-search">
+    <span class="ico">🔍</span>
+    <input placeholder="Search for a subject or exam paper...">
   </div>
-  <div class="hero-stats">
+  <div class="h-stats">
     <div><div class="n">2<span>,486</span></div><div class="l">Past Papers</div></div>
     <div><div class="n">12k<span>+</span></div><div class="l">Practice Questions</div></div>
     <div><div class="n">98<span>.7%</span></div><div class="l">IB Pass Rate</div></div>
@@ -181,141 +222,155 @@
 <div class="content">
   <div class="main">
     <h2>IB DP Subjects</h2>
-    <div class="sub">SL &amp; HL · 6 core subjects · 800+ tutorials &amp; 12k+ questions</div>
+    <div class="sub">SL &amp; HL · 6 core subjects · 800+ tutorials</div>
+    <div class="filter-row">
+      <div class="pill active">All</div>
+      <div class="pill">Sciences</div>
+      <div class="pill">Mathematics</div>
+      <div class="pill">Humanities</div>
+      <div class="pill">Languages</div>
+    </div>
     <div class="grid">
-      <div class="card"><div class="ic c1">🧬</div><h3>Biology</h3><div class="meta">SL · HL · 128 tutorials</div><div class="bar"><div class="bar-fill" style="width:72%"></div></div><div class="stat"><span>Mastery: 72%</span><span>1,240 questions</span></div><span class="badge">Popular</span></div>
-      <div class="card"><div class="ic c2">⚗️</div><h3>Chemistry</h3><div class="meta">SL · HL · 142 tutorials</div><div class="bar"><div class="bar-fill" style="width:58%"></div></div><div class="stat"><span>Mastery: 58%</span><span>980 questions</span></div><span class="badge">Updated</span></div>
-      <div class="card"><div class="ic c3">⚡</div><h3>Physics</h3><div class="meta">SL · HL · 115 tutorials</div><div class="bar"><div class="bar-fill" style="width:65%"></div></div><div class="stat"><span>Mastery: 65%</span><span>1,100 questions</span></div></div>
-      <div class="card"><div class="ic c4">🧮</div><h3>Mathematics</h3><div class="meta">AA · AI · 156 tutorials</div><div class="bar"><div class="bar-fill" style="width:80%"></div></div><div class="stat"><span>Mastery: 80%</span><span>2,050 questions</span></div><span class="badge">Top Rated</span></div>
-      <div class="card"><div class="ic c1">📖</div><h3>English</h3><div class="meta">A · B · 78 tutorials</div><div class="bar"><div class="bar-fill" style="width:45%"></div></div><div class="stat"><span>Mastery: 45%</span><span>560 questions</span></div></div>
-      <div class="card"><div class="ic c2">🌍</div><h3>Economics</h3><div class="meta">SL · HL · 92 tutorials</div><div class="bar"><div class="bar-fill" style="width:55%"></div></div><div class="stat"><span>Mastery: 55%</span><span>720 questions</span></div></div>
+      <div class="card" style="animation-delay:0s"><div class="ic c1">🧬</div><h3>Biology</h3><div class="meta">SL · HL · 128 video tutorials</div><div class="bar"><div class="bar-f g1" style="width:82%"></div></div><div class="stat"><span>Mastery: 82%</span><span>1,240 questions</span></div><span class="badge">Most Popular</span></div>
+      <div class="card" style="animation-delay:.06s"><div class="ic c2">⚗️</div><h3>Chemistry</h3><div class="meta">SL · HL · 142 video tutorials</div><div class="bar"><div class="bar-f g2" style="width:68%"></div></div><div class="stat"><span>Mastery: 68%</span><span>980 questions</span></div><span class="badge">New Content</span></div>
+      <div class="card" style="animation-delay:.12s"><div class="ic c3">⚡</div><h3>Physics</h3><div class="meta">SL · HL · 115 video tutorials</div><div class="bar"><div class="bar-f g3" style="width:75%"></div></div><div class="stat"><span>Mastery: 75%</span><span>1,100 questions</span></div></div>
+      <div class="card" style="animation-delay:.18s"><div class="ic c4">🧮</div><h3>Mathematics</h3><div class="meta">AA · AI · 156 video tutorials</div><div class="bar"><div class="bar-f g1" style="width:90%"></div></div><div class="stat"><span>Mastery: 90%</span><span>2,050 questions</span></div><span class="badge">Top Rated</span></div>
+      <div class="card" style="animation-delay:.24s"><div class="ic c5">📖</div><h3>English</h3><div class="meta">A · B · 78 video tutorials</div><div class="bar"><div class="bar-f g2" style="width:55%"></div></div><div class="stat"><span>Mastery: 55%</span><span>560 questions</span></div></div>
+      <div class="card" style="animation-delay:.3s"><div class="ic c6">🌍</div><h3>Economics</h3><div class="meta">SL · HL · 92 video tutorials</div><div class="bar"><div class="bar-f g3" style="width:65%"></div></div><div class="stat"><span>Mastery: 65%</span><span>720 questions</span></div></div>
     </div>
   </div>
   
   <div>
     <div class="sidebox">
       <h3>Unlock Full Access</h3>
-      <p>Get unlimited access to all IB resources</p>
-      <div class="price">$9.99 <small>/month</small></div>
+      <p>Everything you need for IB success</p>
+      <div class="price">$9.99 <small>/mo</small></div>
       <ul>
         <li>All past papers &amp; mark schemes</li>
-        <li>Topic-by-topic questions</li>
-        <li>Video walkthroughs</li>
-        <li>AI-powered progress tracking</li>
+        <li>Topic-by-topic AI practice</li>
+        <li>Video walkthrough library</li>
+        <li>Real-time progress tracking</li>
+        <li>AI-powered exam predictions</li>
       </ul>
-      <button class="btn-block">Start Free Trial</button>
+      <button class="btn-b btn-pri">Start 7-Day Free Trial</button>
     </div>
     <div class="sidebox">
       <h3>Your Progress</h3>
-      <div style="height:6px;background:rgba(0,0,0,.05);border-radius:3px;overflow:hidden;margin:8px 0"><div style="height:100%;width:35%;background:linear-gradient(90deg,#7c3aed,#f59e0b);border-radius:3px"></div></div>
-      <p style="font-size:12px;color:#8191AA;margin-bottom:10px">35% complete · 28 of 80 topics</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div><div style="font-size:22px;font-weight:700;color:#7c3aed">45</div><div style="font-size:11px;color:#8191AA">Questions done</div></div>
-        <div><div style="font-size:22px;font-weight:700;color:#7c3aed">82%</div><div style="font-size:11px;color:#8191AA">Avg. score</div></div>
+      <div style="height:6px;background:rgba(0,0,0,.04);border-radius:4px;overflow:hidden;margin:10px 0"><div style="height:100%;width:42%;background:linear-gradient(90deg,#7c3aed,#f59e0b);border-radius:4px"></div></div>
+      <p style="font-size:12px;color:#8191AA">42% complete · 34 of 80 topics</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px">
+        <div><div style="font-size:24px;font-weight:800;color:#7c3aed">156</div><div style="font-size:11px;color:#8191AA">Questions done</div></div>
+        <div><div style="font-size:24px;font-weight:800;color:#7c3aed">86%</div><div style="font-size:11px;color:#8191AA">Avg. score</div></div>
       </div>
     </div>
   </div>
 </div>
 
+<div class="features">
+  <div class="feat-inner">
+    <h2 style="font-size:20px;font-weight:800;text-align:center">Why Atlas?</h2>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="fc">🧠</div><h3>AI-Powered Learning</h3><p>Adaptive questions that target your weakest topics first.</p></div>
+      <div class="feat-card"><div class="fc">📊</div><h3>Mastery Tracking</h3><p>Real-time scores for every topic. Know exactly where to focus.</p></div>
+      <div class="feat-card"><div class="fc">🎥</div><h3>Video Solutions</h3><p>Step-by-step walkthroughs for every past paper question.</p></div>
+      <div class="feat-card"><div class="fc">📚</div><h3>Complete Library</h3><p>All past papers, mark schemes, and syllabus guides in one place.</p></div>
+      <div class="feat-card"><div class="fc">⚡</div><h3>Instant Feedback</h3><p>Get detailed explanations the moment you finish a question.</p></div>
+      <div class="feat-card"><div class="fc">🎯</div><h3>Exam Simulation</h3><p>Timed mock exams that replicate the real IB experience.</p></div>
+    </div>
+  </div>
+</div>
+
 <div class="testi">
-  <blockquote>Atlas completely transformed how I prepared for my IB exams. The AI-powered tracking and video walkthroughs are incredible.</blockquote>
+  <blockquote>Atlas completely transformed my IB preparation. The AI tracking identified my weak spots immediately, and the video walkthroughs helped me master every topic. Scored a 45.</blockquote>
   <cite>— Emma L. <span>IB Diploma 45/45 · Class of 2025</span></cite>
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <div><h4>Atlas</h4><a href="#">About</a><a href="#">Contact</a></div>
-    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a></div>
-    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Video Tutorials</a><a href="#">Study Guides</a></div>
-    <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+  <div class="foot-inner">
+    <div><h4>Atlas</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Careers</a></div>
+    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a><a href="#">Mathematics</a></div>
+    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Topic Questions</a><a href="#">Video Library</a><a href="#">Study Guides</a></div>
+    <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
-  <div class="foot-bottom">© 2026 Atlas. All rights reserved.</div>
+  <div class="foot-bot">© 2026 Atlas. Built for IB excellence.</div>
 </footer>
 
-</div>
-
 <script>
-// Interactive 3D Background
+// Three.js Interactive Environment
 const canvas = document.getElementById('three-canvas');
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, .1, 1000);
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth/window.innerHeight, .1, 1000);
 const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 // Particles
-const count = 200;
-const positions = new Float32Array(count * 3);
-const colors = new Float32Array(count * 3);
-const sizes = new Float32Array(count);
-const purple = new THREE.Color('#7c3aed');
-const amber = new THREE.Color('#f59e0b');
-
-for(let i=0; i<count; i++){
-  positions[i*3] = (Math.random() - .5) * 20;
-  positions[i*3+1] = (Math.random() - .5) * 20;
-  positions[i*3+2] = (Math.random() - .5) * 20;
-  const c = purple.clone().lerp(amber, Math.random());
-  colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
-  sizes[i] = Math.random() * 3 + 1;
+const COUNT = 250;
+const pos = new Float32Array(COUNT * 3);
+const cols = new Float32Array(COUNT * 3);
+for(let i=0; i<COUNT; i++){
+  pos[i*3] = (Math.random()-.5)*24;
+  pos[i*3+1] = (Math.random()-.5)*24;
+  pos[i*3+2] = (Math.random()-.5)*24;
+  const t = Math.random();
+  cols[i*3] = .48 + t*.18;
+  cols[i*3+1] = .23 + t*.38;
+  cols[i*3+2] = .93 - t*.3;
 }
-
 const geo = new THREE.BufferGeometry();
-geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-geo.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
+geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+geo.setAttribute('color', new THREE.BufferAttribute(cols, 3));
 const mat = new THREE.PointsMaterial({
-  size: .08, vertexColors: true, transparent: true, opacity: .6,
-  blending: THREE.AdditiveBlending, depthWrite: false
+  size: .06, vertexColors: true, transparent: true, opacity: .5,
+  blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
 });
-const particles = new THREE.Points(geo, mat);
-scene.add(particles);
+const pts = new THREE.Points(geo, mat);
+scene.add(pts);
 
-// Connected lines
-const linesGeo = new THREE.BufferGeometry();
-const linePositions = [];
-for(let i=0; i<count; i++){
-  for(let j=i+1; j<count; j++){
-    const dx = positions[i*3] - positions[j*3];
-    const dy = positions[i*3+1] - positions[j*3+1];
-    const dz = positions[i*3+2] - positions[j*3+2];
-    const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-    if(dist < 3){
-      linePositions.push(positions[i*3], positions[i*3+1], positions[i*3+2]);
-      linePositions.push(positions[j*3], positions[j*3+1], positions[j*3+2]);
-    }
-  }
-}
-linesGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
-const lineMat = new THREE.LineBasicMaterial({color: 0x7c3aed, transparent: true, opacity: .08});
-const lines = new THREE.LineSegments(linesGeo, lineMat);
-scene.add(lines);
+// Wireframe grid
+const grid = new THREE.GridHelper(16, 20, 0x7c3aed, 0x7c3aed);
+grid.position.y = -6;
+grid.material.opacity = .04;
+grid.material.transparent = true;
+scene.add(grid);
 
-camera.position.z = 8;
-let mouseX = 0, mouseY = 0;
+camera.position.z = 7;
+let mx=0, my=0;
 document.addEventListener('mousemove', e => {
-  mouseX = (e.clientX / window.innerWidth - .5) * 2;
-  mouseY = (e.clientY / window.innerHeight - .5) * 2;
+  mx = (e.clientX/window.innerWidth-.5)*2;
+  my = (e.clientY/window.innerHeight-.5)*2;
 });
 
-function animate(){
-  requestAnimationFrame(animate);
-  particles.rotation.x += .0005;
-  particles.rotation.y += .0008;
-  lines.rotation.x = particles.rotation.x;
-  lines.rotation.y = particles.rotation.y;
-  camera.position.x += (mouseX * 1.5 - camera.position.x) * .02;
-  camera.position.y += (-mouseY * 1.5 - camera.position.y) * .02;
-  camera.lookAt(scene.position);
+function anim(){
+  requestAnimationFrame(anim);
+  pts.rotation.x += .0004;
+  pts.rotation.y += .0006;
+  grid.rotation.y = pts.rotation.y*.5;
+  camera.position.x += (mx*1.2 - camera.position.x)*.015;
+  camera.position.y += (-my*1.2 - camera.position.y)*.015;
+  camera.lookAt(0,0,0);
   renderer.render(scene, camera);
 }
-animate();
+anim();
 
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.aspect = window.innerWidth/window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// Animate progress bars on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.style.width = entry.target.dataset.w || '0%';
+    }
+  });
+});
+document.querySelectorAll('.bar-f').forEach(el => {
+  el.dataset.w = el.style.width;
+  el.style.width = '0%';
+  observer.observe(el);
 });
 </script>
 
