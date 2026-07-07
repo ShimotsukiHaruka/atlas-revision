@@ -304,22 +304,22 @@
     
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3" x-data>
       <template x-for="(s, i) in [
-        {name:'Biology', slug:'bio', icon:'🧬', papers:'42', master:'82%'},
-        {name:'Chemistry', slug:'chem', icon:'⚗️', papers:'38', master:'68%'},
-        {name:'Physics', slug:'phys', icon:'⚡', papers:'35', master:'75%'},
-        {name:'Math AA/AI', slug:'math', icon:'🧮', papers:'52', master:'90%'},
-        {name:'English', slug:'eng', icon:'📖', papers:'28', master:'55%'},
-        {name:'Economics', slug:'eco', icon:'🌍', papers:'24', master:'65%'},
+        {name:'Biology', slug:'bio', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><path d="M0.676 32.23H32.103V0H0.676V32.23Z" fill="currentColor" opacity=".2"/><path d="M27.467 13.712L9.641 26.992l2.601-8.207-6.808-5.073h8.416L16.45 5.505l2.6 8.207h8.416zm-11.016 8.209l4.868-1.05 1.94 6.121-6.808-5.07z" fill="currentColor"/></svg>', papers:'42'},
+        {name:'Chemistry', slug:'chem', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><rect x="0.676" y="0" width="31.427" height="32" rx="6" fill="currentColor" opacity=".2"/><path d="M16.45 8.5c-2.5 0-4.5 2-4.5 4.5 0 1.2.5 2.3 1.2 3.2l-2.2 5.8h11l-2.2-5.8c.7-.9 1.2-2 1.2-3.2 0-2.5-2-4.5-4.5-4.5z" fill="currentColor"/></svg>', papers:'38'},
+        {name:'Physics', slug:'phys', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><circle cx="16.39" cy="16" r="15" fill="currentColor" opacity=".2"/><path d="M16.39 6c5.5 0 10 4.5 10 10s-4.5 10-10 10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16.39 6c-5.5 0-10 4.5-10 10s4.5 10 10 10" stroke="currentColor" stroke-width="2" fill="none" opacity=".5"/></svg>', papers:'35'},
+        {name:'Math AA/AI', slug:'math', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><rect x="0.676" y="0" width="31.427" height="32" rx="4" fill="currentColor" opacity=".2"/><path d="M10.39 22h12M10.39 10h12M10.39 16h8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>', papers:'52'},
+        {name:'English', slug:'eng', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><rect x="0.676" y="0" width="31.427" height="32" rx="6" fill="currentColor" opacity=".2"/><path d="M12.39 22V10l4 3 4-3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>', papers:'28'},
+        {name:'Economics', slug:'eco', icon:'<svg width="28" height="28" viewBox="0 0 33 32" fill="none"><rect x="0.676" y="0" width="31.427" height="32" rx="6" fill="currentColor" opacity=".2"/><path d="M22.39 22l-6-8-4 4-8-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="24.39" cy="22" r="2" fill="currentColor"/></svg>', papers:'24'},
       ]">
-        <div class="hover-card glass rounded-2xl p-5 group" @mousemove="el.style.setProperty('--mx', ($event.offsetX/el.offsetWidth*100)+'%'); el.style.setProperty('--my', ($event.offsetY/el.offsetHeight*100)+'%')" x-ref="el">
-          <div class="text-xl mb-3" x-text="s.icon"></div>
+        <div class="hover-card glass rounded-2xl p-5 group" @mousemove="el.style.setProperty('--mx', ($event.offsetX/el.offsetWidth*100)+'%'); el.style.setProperty('--my', ($event.offsetY/el.offsetHeight*100)+'%')">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center mb-3 text-indigo-400/60" x-html="s.icon"></div>
           <h3 class="text-sm font-semibold" x-text="s.name"></h3>
           <p class="text-xs text-white/30 mt-1" x-text="s.papers + ' past papers'"></p>
           <div class="mt-3 h-1 bg-white/5 rounded-full overflow-hidden">
-            <div class="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-1000" :style="'width:'+s.master"></div>
+            <div class="h-full rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 transition-all duration-1000" :style="'width:'+['82%','68%','75%','90%','55%','65%'][i]"></div>
           </div>
           <div class="flex justify-between text-[10px] text-white/20 mt-1.5">
-            <span x-text="'Mastery ' + s.master"></span>
+            <span x-text="'Mastery ' + ['82%','68%','75%','90%','55%','65%'][i]"></span>
             <span x-text="s.papers + ' papers'"></span>
           </div>
         </div>
