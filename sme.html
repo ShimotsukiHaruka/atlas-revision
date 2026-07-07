@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Save My Exams — Revision Resources</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--blue:#265bf6;--dark:#1a1a2e;--gray:#6b7280;--light:#f8f9fd;--border:#e5e7eb;--white:#fff;--font:'Plus Jakarta Sans',-apple-system,sans-serif;--radius:12px}
+  body{font-family:var(--font);background:var(--light);color:var(--dark);-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  
+  /* ── TOP BAR ── */
+  .topbar{background:linear-gradient(135deg,#1a1a4e,#2d2d7a);color:var(--white);padding:8px 0;text-align:center;font-size:13px;font-weight:500}
+  .topbar span{opacity:.8}
+  .topbar strong{color:#ffd700}
+  
+  /* ── NAV ── */
+  nav{background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:0 24px;height:60px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;color:var(--dark)}
+  .logo svg{width:28px;height:28px}
+  .logo span{color:var(--blue)}
+  
+  .role-wrap{display:flex;background:#f0f2f8;border-radius:30px;padding:3px;font-size:12px;font-weight:600}
+  .role-wrap div{padding:5px 14px;border-radius:24px;cursor:pointer;color:var(--gray);transition:.2s}
+  .role-wrap div.active{background:var(--white);color:var(--dark);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+  
+  .nav-links{display:flex;gap:4px;font-size:13px;font-weight:500}
+  .nav-links a{padding:6px 12px;border-radius:8px;color:var(--gray);transition:.2s}
+  .nav-links a:hover{background:var(--light);color:var(--dark)}
+  
+  .search-box{display:flex;align-items:center;background:var(--light);border:1px solid var(--border);border-radius:30px;padding:0 14px;flex:1;max-width:280px;height:36px}
+  .search-box input{border:none;background:transparent;padding:0 8px;font-size:13px;outline:none;width:100%;font-family:inherit}
+  .search-box span{color:var(--gray);font-size:14px}
+  
+  .btn{font-size:13px;font-weight:600;padding:7px 16px;border-radius:8px;border:none;cursor:pointer;transition:.2s}
+  .btn-outline{background:transparent;color:var(--blue);border:1px solid var(--blue)}
+  .btn-outline:hover{background:var(--blue);color:var(--white)}
+  .btn-primary{background:var(--blue);color:var(--white)}
+  .btn-primary:hover{background:#1a4ad4}
+  
+  /* ── HERO ── */
+  .hero{max-width:1200px;margin:0 auto;padding:50px 24px 30px;text-align:center}
+  .hero h1{font-size:36px;font-weight:700;line-height:1.2;color:var(--dark)}
+  .hero h1 span{color:var(--blue)}
+  .hero p{font-size:16px;color:var(--gray);margin:10px 0 24px;max-width:550px;margin-left:auto;margin-right:auto}
+  .hero-search{max-width:520px;margin:0 auto;position:relative}
+  .hero-search input{width:100%;padding:13px 20px 13px 42px;border:2px solid var(--border);border-radius:40px;font-size:15px;outline:none;transition:.2s;background:var(--white);font-family:inherit}
+  .hero-search input:focus{border-color:var(--blue)}
+  .hero-search::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:15px}
+  
+  /* ── BREADCRUMB / TOPIC ── */
+  .topic-bar{max-width:1200px;margin:0 auto;padding:8px 24px;font-size:13px;color:var(--gray);display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .topic-bar a{color:var(--blue)}
+  .topic-bar a:hover{text-decoration:underline}
+  
+  /* ── CONTENT ── */
+  .content{max-width:1200px;margin:0 auto;padding:0 24px 40px;display:grid;grid-template-columns:1fr 320px;gap:30px}
+  @media(max-width:900px){.content{grid-template-columns:1fr}}
+  
+  .main{}
+  .main h2{font-size:22px;font-weight:700;margin-bottom:6px}
+  .main .sub{font-size:14px;color:var(--gray);margin-bottom:20px}
+  
+  .exam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+  .exam-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:.2s;cursor:pointer}
+  .exam-card:hover{box-shadow:0 4px 12px rgba(38,91,246,.1);border-color:var(--blue);transform:translateY(-2px)}
+  .exam-card .icon{width:32px;height:32px;border-radius:8px;background:rgba(38,91,246,.08);display:flex;align-items:center;justify-content:center;margin-bottom:8px;font-size:16px}
+  .exam-card h3{font-size:14px;font-weight:600;margin-bottom:2px}
+  .exam-card .meta{font-size:12px;color:var(--gray)}
+  .exam-card .badge{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(38,91,246,.08);color:var(--blue);font-weight:600;margin-top:6px}
+  
+  /* ── SIDEBAR ── */
+  .sidebar{}
+  .sidebar-box{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+  .sidebar-box h3{font-size:15px;font-weight:700;margin-bottom:10px}
+  .sidebar-box p{font-size:13px;color:var(--gray);line-height:1.6}
+  .sidebar-box .price{font-size:28px;font-weight:800;color:var(--blue);margin:8px 0}
+  .sidebar-box .price small{font-size:14px;font-weight:400;color:var(--gray)}
+  .sidebar-box .btn-block{width:100%;padding:12px;font-size:14px;margin-top:10px}
+  
+  .feature-list{list-style:none;padding:0}
+  .feature-list li{padding:6px 0;font-size:13px;color:var(--dark);display:flex;align-items:center;gap:8px}
+  .feature-list li::before{content:'✅';font-size:12px}
+  
+  /* ── FOOTER ── */
+  footer{background:var(--dark);color:rgba(255,255,255,.5);padding:40px 24px}
+  .footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .footer-inner h4{color:var(--white);font-size:14px;font-weight:600;margin-bottom:10px}
+  .footer-inner a{display:block;font-size:13px;color:rgba(255,255,255,.5);padding:3px 0;transition:.2s}
+  .footer-inner a:hover{color:var(--white)}
+  .footer-bottom{max-width:1200px;margin:24px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;text-align:center}
+  
+  @media(max-width:768px){
+    .nav-links,.search-box{display:none}
+    .hero h1{font-size:26px}
+    .exam-grid{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><span>🎓 New: 2026 IB Past Papers Released — </span><strong>Browse Now →</strong></div>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <svg viewBox="0 0 28 28" fill="none"><rect width="28" height="28" rx="8" fill="#265bf6"/><path d="M7 20V8l6 4 6-4v12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+      Save My <span>Exams</span>
+    </div>
+    <div class="role-wrap">
+      <div class="active">Student</div>
+      <div>Teacher</div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Subjects</a>
+      <a href="#">Exam Boards</a>
+      <a href="#">Past Papers</a>
+      <a href="#">Revision Notes</a>
+    </div>
+    <div class="search-box"><span>🔍</span><input placeholder="Search subjects..."></div>
+    <button class="btn btn-outline">Log In</button>
+    <button class="btn btn-primary">Join Free</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Exam revision that <span>actually works</span></h1>
+  <p>Trusted by 50,000+ students worldwide. Past papers, revision notes, and topic questions — all in one place.</p>
+  <div class="hero-search"><input placeholder="Search for a subject or exam board..."></div>
+</div>
+
+<div class="topic-bar">
+  <a href="#">Home</a> <span>›</span> <a href="#">IB</a> <span>›</span> <span style="color:var(--dark)">Biology</span>
+</div>
+
+<div class="content">
+  <div class="main">
+    <h2>IB Biology SL & HL</h2>
+    <div class="sub">Choose your topic to get started</div>
+    <div class="exam-grid">
+      <div class="exam-card"><div class="icon">🧬</div><h3>Cell Biology</h3><div class="meta">6 topics · 45 questions</div><span class="badge">New</span></div>
+      <div class="exam-card"><div class="icon">🧪</div><h3>Molecular Biology</h3><div class="meta">8 topics · 62 questions</div><span class="badge">Popular</span></div>
+      <div class="exam-card"><div class="icon">🧫</div><h3>Genetics</h3><div class="meta">5 topics · 38 questions</div></div>
+      <div class="exam-card"><div class="icon">🌿</div><h3>Ecology</h3><div class="meta">4 topics · 30 questions</div></div>
+      <div class="exam-card"><div class="icon">🫀</div><h3>Human Physiology</h3><div class="meta">7 topics · 52 questions</div></div>
+      <div class="exam-card"><div class="icon">🧠</div><h3>Neurobiology</h3><div class="meta">3 topics · 22 questions</div></div>
+      <div class="exam-card"><div class="icon">🔬</div><h3>Biotechnology</h3><div class="meta">4 topics · 28 questions</div><span class="badge">Updated</span></div>
+      <div class="exam-card"><div class="icon">🧬</div><h3>Nucleic Acids</h3><div class="meta">3 topics · 20 questions</div></div>
+    </div>
+  </div>
+  
+  <div class="sidebar">
+    <div class="sidebar-box">
+      <h3>Unlock Full Access</h3>
+      <div class="price">$9.99 <small>/month</small></div>
+      <ul class="feature-list">
+        <li>All past papers & mark schemes</li>
+        <li>Topic-by-topic questions</li>
+        <li>Revision notes & flashcards</li>
+        <li>AI-powered study tools</li>
+        <li>Progress tracking</li>
+      </ul>
+      <button class="btn btn-primary btn-block">Start Free Trial</button>
+    </div>
+    <div class="sidebar-box">
+      <h3>Quick Stats</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div><div style="font-size:22px;font-weight:800;color:var(--blue)">2,486</div><div style="font-size:12px;color:var(--gray)">Past Papers</div></div>
+        <div><div style="font-size:22px;font-weight:800;color:var(--blue)">12k+</div><div style="font-size:12px;color:var(--gray)">Questions</div></div>
+        <div><div style="font-size:22px;font-weight:800;color:var(--blue)">98.7%</div><div style="font-size:12px;color:var(--gray)">Pass Rate</div></div>
+        <div><div style="font-size:22px;font-weight:800;color:var(--blue)">50k+</div><div style="font-size:12px;color:var(--gray)">Students</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><h4>Save My Exams</h4><a href="#">About Us</a><a href="#">Contact</a><a href="#">Careers</a></div>
+    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a><a href="#">Mathematics</a></div>
+    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Revision Notes</a><a href="#">Topic Questions</a><a href="#">Study Guides</a></div>
+    <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+  </div>
+  <div class="footer-bottom">© 2026 Save My Exams. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Revision Village — IB Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Manrope:wght@500..800&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+  :root{--navy:#00173B;--orange:#F79009;--bg:#F8F9FB;--white:#fff;--gray:#8191AA;--light:#D4DAE2;--card:#fff;--font:'Inter','Manrope',sans-serif;--radius:12px}
+  body{font-family:var(--font);background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased}
+  a{text-decoration:none;color:inherit}
+  
+  /* ── NAV ── */
+  nav{background:var(--navy);color:var(--white);position:sticky;top:0;z-index:100}
+  .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:0 24px;height:64px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:20px;letter-spacing:-.3px}
+  .logo svg{width:30px;height:30px}
+  .logo span{color:var(--orange)}
+  
+  .nav-search{flex:1;max-width:340px;position:relative}
+  .nav-search input{width:100%;padding:9px 14px 9px 36px;border-radius:20px;border:none;font-size:13px;background:rgba(255,255,255,.12);color:var(--white);outline:none;font-family:inherit}
+  .nav-search input::placeholder{color:rgba(255,255,255,.35)}
+  .nav-search::before{content:'🔍';position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.5}
+  
+  .nav-links{display:flex;gap:16px;font-size:13px;font-weight:500}
+  .nav-links a{opacity:.7;transition:.2s}
+  .nav-links a:hover{opacity:1}
+  
+  .nav-actions{display:flex;gap:8px}
+  .btn{font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;transition:.2s}
+  .btn-nav{background:rgba(255,255,255,.1);color:var(--white)}
+  .btn-nav:hover{background:rgba(255,255,255,.18)}
+  .btn-orange{background:var(--orange);color:var(--navy)}
+  .btn-orange:hover{background:#e68508}
+  
+  /* ── HERO ── */
+  .hero{background:var(--navy);padding:60px 24px 50px;text-align:center;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;top:0;right:0;width:400px;height:400px;background:radial-gradient(circle,rgba(247,144,9,.08),transparent 70%);border-radius:50%;transform:translate(30%,-30%)}
+  .hero h1{font-size:38px;font-weight:800;line-height:1.1;position:relative}
+  .hero h1 span{color:var(--orange)}
+  .hero p{font-size:16px;color:rgba(255,255,255,.55);margin:12px auto 28px;max-width:480px;position:relative}
+  .hero-search{position:relative;max-width:450px;margin:0 auto}
+  .hero-search input{width:100%;padding:14px 18px 14px 44px;border-radius:40px;border:none;font-size:14px;background:rgba(255,255,255,.1);color:var(--white);outline:none;backdrop-filter:blur(6px);font-family:inherit}
+  .hero-search input::placeholder{color:rgba(255,255,255,.35)}
+  .hero-search::before{content:'🔍';position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:14px;opacity:.5}
+  
+  /* ── SUBJECTS ── */
+  .subjects{max-width:1000px;margin:-24px auto 0;padding:0 24px 30px;position:relative;z-index:10}
+  .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+  .section-head h2{font-size:20px;font-weight:700}
+  .section-head a{font-size:13px;color:var(--orange);font-weight:600}
+  
+  .subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+  .subject-card{background:var(--white);border-radius:var(--radius);padding:20px;box-shadow:0 2px 8px rgba(0,23,59,.04);transition:.25s;cursor:pointer;border:1px solid transparent}
+  .subject-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,23,59,.08);border-color:rgba(247,144,9,.2)}
+  .subject-card .icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+  .subject-card h3{font-size:16px;font-weight:700;margin-bottom:2px}
+  .subject-card .meta{font-size:12px;color:var(--gray);margin-bottom:6px}
+  .subject-card .progress{height:4px;background:#eef0f4;border-radius:2px;overflow:hidden;margin:8px 0 4px}
+  .subject-card .progress-bar{height:100%;background:var(--orange);border-radius:2px;transition:width 1s}
+  .subject-card .stat{font-size:11px;color:var(--gray);display:flex;justify-content:space-between}
+  
+  .c1 .icon{background:rgba(247,144,9,.1);color:#b86b00}
+  .c2 .icon{background:rgba(38,91,246,.1);color:var(--blue)}
+  .c3 .icon{background:rgba(16,185,129,.1);color:#059669}
+  .c4 .icon{background:rgba(139,92,246,.1);color:#7c3aed}
+  .c5 .icon{background:rgba(236,72,153,.1);color:#db2777}
+  .c6 .icon{background:rgba(6,182,212,.1);color:#0891b2}
+  
+  /* ── STATS ── */
+  .stats{background:var(--white);border-top:1px solid #eef0f4;padding:28px 24px}
+  .stats-inner{max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;text-align:center}
+  .stat-item .num{font-size:28px;font-weight:800}
+  .stat-item .num span{color:var(--orange)}
+  .stat-item .label{font-size:12px;color:var(--gray);margin-top:2px}
+  
+  /* ── TESTIMONIAL ── */
+  .testimonial{max-width:700px;margin:30px auto;padding:0 24px;text-align:center}
+  .testimonial blockquote{font-size:16px;line-height:1.6;color:var(--gray);font-style:italic}
+  .testimonial cite{display:block;margin-top:10px;font-size:13px;font-weight:600;color:var(--navy);font-style:normal}
+  .testimonial cite span{color:var(--gray);font-weight:400}
+  
+  /* ── FOOTER ── */
+  footer{background:var(--navy);color:rgba(255,255,255,.5);padding:36px 24px 24px}
+  .footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .footer-inner h4{color:var(--white);font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-inner a{display:block;font-size:12px;color:rgba(255,255,255,.5);padding:3px 0}
+  .footer-inner a:hover{color:var(--orange)}
+  .foot-bottom{max-width:1000px;margin:20px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);font-size:11px;text-align:center}
+  
+  @media(max-width:768px){
+    .nav-links,.nav-actions .btn-nav{display:none}
+    .hero h1{font-size:26px}
+    .subject-grid{grid-template-columns:repeat(2,1fr)}
+    .stats-inner{grid-template-columns:repeat(2,1fr)}
+    .footer-inner{grid-template-columns:repeat(1,1fr)}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <svg viewBox="0 0 30 30" fill="none"><rect width="30" height="30" rx="8" fill="#F79009"/><path d="M8 20V10l7 5 7-5v10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+      Revision<span> Village</span>
+    </div>
+    <div class="nav-search"><input placeholder="Find a subject..."></div>
+    <div class="nav-links">
+      <a href="#">Subjects</a>
+      <a href="#">Courses</a>
+      <a href="#">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-nav">Log In</button>
+      <button class="btn btn-orange">Start Free</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>IB Exam Preparation,<br><span>Simplified</span></h1>
+  <p>Master your IB exams with video tutorials, practice questions, and past paper walkthroughs</p>
+  <div class="hero-search"><input placeholder="Search for a subject or topic..."></div>
+</div>
+
+<div class="subjects">
+  <div class="section-head">
+    <h2>IB DP Subjects</h2>
+    <a href="#">View all →</a>
+  </div>
+  <div class="subject-grid">
+    <div class="subject-card c1">
+      <div class="icon">🧬</div>
+      <h3>Biology</h3>
+      <div class="meta">SL · HL · 128 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:72%"></div></div>
+      <div class="stat"><span>Mastery: 72%</span><span>1,240 questions</span></div>
+    </div>
+    <div class="subject-card c2">
+      <div class="icon">⚗️</div>
+      <h3>Chemistry</h3>
+      <div class="meta">SL · HL · 142 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:58%"></div></div>
+      <div class="stat"><span>Mastery: 58%</span><span>980 questions</span></div>
+    </div>
+    <div class="subject-card c3">
+      <div class="icon">⚡</div>
+      <h3>Physics</h3>
+      <div class="meta">SL · HL · 115 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:65%"></div></div>
+      <div class="stat"><span>Mastery: 65%</span><span>1,100 questions</span></div>
+    </div>
+    <div class="subject-card c4">
+      <div class="icon">🧮</div>
+      <h3>Mathematics</h3>
+      <div class="meta">AA · AI · 156 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:80%"></div></div>
+      <div class="stat"><span>Mastery: 80%</span><span>2,050 questions</span></div>
+    </div>
+    <div class="subject-card c5">
+      <div class="icon">📖</div>
+      <h3>English</h3>
+      <div class="meta">A · B · 78 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:45%"></div></div>
+      <div class="stat"><span>Mastery: 45%</span><span>560 questions</span></div>
+    </div>
+    <div class="subject-card c6">
+      <div class="icon">🌍</div>
+      <h3>Economics</h3>
+      <div class="meta">SL · HL · 92 video tutorials</div>
+      <div class="progress"><div class="progress-bar" style="width:55%"></div></div>
+      <div class="stat"><span>Mastery: 55%</span><span>720 questions</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="num">2<span>,486</span></div><div class="label">Past Papers</div></div>
+    <div class="stat-item"><div class="num">12k<span>+</span></div><div class="label">Practice Questions</div></div>
+    <div class="stat-item"><div class="num">98<span>.7%</span></div><div class="label">IB Pass Rate</div></div>
+    <div class="stat-item"><div class="num">50k<span>+</span></div><div class="label">Students</div></div>
+  </div>
+</div>
+
+<div class="testimonial">
+  <blockquote>"Revision Village completely changed the way I prepared for my IB exams. The video walkthroughs are incredible."</blockquote>
+  <cite>— Emma L. <span>IB Diploma Graduate, Class of 2025</span></cite>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><h4>Revision Village</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Press</a></div>
+    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a><a href="#">Math AA/AI</a></div>
+    <div><h4>Resources</h4><a href="#">Video Tutorials</a><a href="#">Past Papers</a><a href="#">Practice Exams</a><a href="#">Study Guides</a></div>
+  </div>
+  <div class="foot-bottom">© 2026 Revision Village. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
