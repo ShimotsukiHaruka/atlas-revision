@@ -4,183 +4,167 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Atlas — IB Exam Preparation</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   
   :root{
-    --red:#f51b1b; --black:#0d0c0c; --white:#fafafa; --gray:#888;
-    --ease-out:cubic-bezier(.165,.84,.44,1);
-    --ease-bounce:cubic-bezier(.185,.94,.26,1.17);
+    /* Apple inspired */
+    --bg:#fbfbfd; --card:#fff; --text:#1d1d1f; --text2:#6e6e73;
+    --border:rgba(0,0,0,.06); --link:#0066cc;
+    /* Grok inspired accent */
+    --accent:#1e1f22; --accent2:#f5f5f7;
+    /* Typography */
     --font:'Inter',-apple-system,sans-serif;
-    --radius:16px;
+    --leading:.025em;
+    /* Spacing - Apple uses multiples of 8 */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:80px; --s8:100px;
+    --radius:12px; --radius-sm:6px;
   }
   html{scroll-behavior:smooth}
-  body{font-family:var(--font);background:var(--white);color:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
+  body{font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;font-weight:400;line-height:1.47059;letter-spacing:var(--leading)}
   a{text-decoration:none;color:inherit}
-  ::selection{background:var(--red);color:#fff}
 
-  /* ── CUSTOM CURSOR ── */
-  .cursor{position:fixed;width:12px;height:12px;background:var(--red);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform .2s var(--ease-out),width .3s,height .3s}
-  .cursor.hover{width:32px;height:32px;opacity:.6}
-  .cursor-follower{position:fixed;width:40px;height:40px;border:1px solid rgba(245,27,27,.3);border-radius:50%;pointer-events:none;z-index:9998;transition:all .4s var(--ease-out)}
+  /* ── APPLE STYLE BANNER ── */
+  .accent-bar{background:var(--accent);color:hsla(0,0%,100%,.56);text-align:center;padding:12px 20px;font-size:13px;font-weight:400;letter-spacing:.02em}
+  .accent-bar strong{color:#fff;font-weight:500;cursor:pointer;transition:color .2s}
+  .accent-bar strong:hover{color:var(--link)}
 
-  /* ── SCROLL PROGRESS ── */
-  .scroll-progress{position:fixed;top:0;left:0;height:2px;background:var(--red);z-index:9997;width:0%;transition:width .1s linear}
+  /* ── APPLE STYLE NAV ── */
+  nav{position:sticky;top:0;z-index:100;background:rgba(251,251,253,.88);backdrop-filter:blur(40px) saturate(1.5);-webkit-backdrop-filter:blur(40px);border-bottom:1px solid rgba(0,0,0,.06)}
+  .nav-inner{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:var(--s3);padding:0 22px;height:44px}
+  .logo{font-weight:600;font-size:14px;color:var(--text);letter-spacing:-.01em;display:flex;align-items:center;gap:6px}
+  .logo span{color:var(--link)}
 
-  /* ── BANNER ── */
-  .banner{background:var(--black);color:rgba(255,255,255,.5);text-align:center;padding:9px 16px;font-size:12px;letter-spacing:.3px}
-  .banner strong{color:#fff;cursor:pointer}
-  .banner strong:hover{color:var(--red)}
+  .nav-links{display:flex;gap:var(--s3);font-size:12px;font-weight:400;letter-spacing:-.01em}
+  .nav-links a{color:rgba(0,0,0,.56);transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
 
-  /* ── NAV ── */
-  nav{position:sticky;top:0;z-index:100;background:rgba(13,12,12,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.03)}
-  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:0 28px;height:64px}
-  .logo{font-weight:700;font-size:17px;color:#fff;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;position:relative}
-  .logo .ic{width:28px;height:28px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--black);transition:transform .4s var(--ease-bounce)}
-  .logo:hover .ic{transform:rotate(-15deg) scale(1.1)}
-  .logo span{color:var(--red);font-weight:800}
+  .nav-search{position:relative;flex:1;max-width:200px;margin-left:auto}
+  .nav-search input{width:100%;padding:5px 10px 5px 26px;border-radius:var(--radius-sm);border:none;font-size:12px;background:rgba(0,0,0,.04);color:var(--text);outline:none;font-family:var(--font);letter-spacing:-.01em;transition:all .2s}
+  .nav-search input:focus{background:rgba(0,0,0,.06)}
+  .nav-search input::placeholder{color:rgba(0,0,0,.32)}
+  .nav-search .ic{position:absolute;left:8px;top:50%;transform:translateY(-50%);font-size:9px;color:rgba(0,0,0,.2)}
 
-  .role-switch{display:flex;background:rgba(255,255,255,.03);border-radius:6px;padding:2px;font-size:11px;font-weight:500}
-  .role-switch div{padding:5px 12px;border-radius:4px;cursor:pointer;color:rgba(255,255,255,.25);transition:all .3s var(--ease-out)}
-  .role-switch div.active{background:rgba(255,255,255,.06);color:#fff}
+  .nav-btns{display:flex;gap:6px}
+  .btn{font-size:12px;font-weight:400;padding:4px 12px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:var(--font);letter-spacing:-.01em;transition:all .2s}
+  .btn-log{background:transparent;color:var(--link)}
+  .btn-log:hover{text-decoration:underline}
+  .btn-primary{background:var(--link);color:#fff}
+  .btn-primary:hover{opacity:.85}
 
-  .search-wrap{position:relative;flex:1;max-width:240px}
-  .search-wrap input{width:100%;padding:7px 10px 7px 30px;border-radius:6px;border:none;font-size:12px;background:rgba(255,255,255,.03);color:#fff;outline:none;font-family:var(--font);transition:all .3s var(--ease-out)}
-  .search-wrap input:focus{background:rgba(255,255,255,.06)}
-  .search-wrap input::placeholder{color:rgba(255,255,255,.15)}
-  .search-wrap .ico{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:10px;opacity:.2}
+  /* ── APPLE HERO ── */
+  .hero{padding:var(--s8) 22px var(--s7);text-align:center;max-width:800px;margin:0 auto;position:relative}
+  .hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(0,102,204,.02),transparent 60%);pointer-events:none}
+  .hero-badge{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--text2);margin-bottom:var(--s3);letter-spacing:.02em}
+  .hero-badge span{color:var(--link)}
+  .hero h1{font-size:52px;font-weight:700;line-height:1.05;letter-spacing:-.015em;color:var(--text);margin-bottom:var(--s2)}
+  .hero h1 span{color:var(--link)}
+  .hero p{font-size:20px;color:var(--text2);line-height:1.47059;max-width:560px;margin:0 auto var(--s5);font-weight:400;letter-spacing:.004em}
+  .hero .h-search{position:relative;max-width:400px;margin:0 auto}
+  .hero .h-search input{width:100%;padding:12px 16px 12px 36px;border-radius:var(--radius-sm);border:1px solid var(--border);font-size:14px;background:var(--card);color:var(--text);outline:none;font-family:var(--font);transition:all .2s}
+  .hero .h-search input:focus{border-color:var(--link);box-shadow:0 0 0 3px rgba(0,102,204,.08)}
+  .hero .h-search input::placeholder{color:var(--text2)}
+  .hero .h-search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--text2)}
 
-  .links{display:flex;gap:20px;font-size:12px;font-weight:450}
-  .links a{color:rgba(255,255,255,.3);position:relative;transition:color .3s var(--ease-out)}
-  .links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:var(--red);transition:width .35s var(--ease-out)}
-  .links a:hover{color:rgba(255,255,255,.6)}
-  .links a:hover::after{width:100%}
+  .h-stats{display:flex;justify-content:center;gap:var(--s6);margin-top:var(--s6)}
+  .h-stats .n{font-size:24px;font-weight:600;letter-spacing:-.01em;color:var(--text)}
+  .h-stats .n span{color:var(--link)}
+  .h-stats .l{font-size:12px;color:var(--text2);margin-top:2px}
 
-  .btns{display:flex;gap:6px}
-  .btn{padding:7px 16px;border-radius:6px;font-size:11px;font-weight:500;border:none;cursor:pointer;font-family:var(--font);transition:all .3s var(--ease-out);letter-spacing:.2px}
-  .btn-log{background:transparent;color:rgba(255,255,255,.4)}
-  .btn-log:hover{background:rgba(255,255,255,.03)}
-  .btn-red{background:var(--red);color:#fff}
-  .btn-red:hover{opacity:.9;transform:translateY(-1px)}
+  /* ── CONTENT ── */
+  .content{max-width:980px;margin:0 auto;padding:0 22px var(--s7);display:grid;grid-template-columns:1fr 280px;gap:var(--s5)}
+  @media(max-width:768px){.content{grid-template-columns:1fr}}
 
-  /* ── HERO ── */
-  .hero{background:var(--black);padding:100px 28px 70px;text-align:center;position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(245,27,27,.025),transparent 60%);animation:breathe 4s infinite}
-  @keyframes breathe{0%,100%{opacity:.5}50%{opacity:1}}
-  
-  .hero h1{font-size:56px;font-weight:700;line-height:1.02;color:#fff;letter-spacing:-1.5px;opacity:0;transform:translateY(30px);animation:reveal .8s .1s forwards}
-  .hero h1 span{color:var(--red)}
-  .hero p{font-size:16px;color:rgba(255,255,255,.3);margin:16px auto 32px;max-width:440px;line-height:1.6;opacity:0;transform:translateY(20px);animation:reveal .8s .2s forwards}
-  
-  @keyframes reveal{to{opacity:1;transform:translateY(0)}}
-  
-  .hero .h-search{position:relative;max-width:400px;margin:0 auto;opacity:0;animation:reveal .8s .3s forwards}
-  .hero .h-search input{width:100%;padding:13px 16px 13px 38px;border-radius:8px;border:none;font-size:13px;background:rgba(255,255,255,.03);color:#fff;outline:none;font-family:var(--font);transition:all .3s var(--ease-out)}
-  .hero .h-search input:focus{background:rgba(255,255,255,.06)}
-  .hero .h-search input::placeholder{color:rgba(255,255,255,.14)}
-  .hero .h-search .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.15}
+  .main h2{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+  .main .sub{font-size:14px;color:var(--text2);margin-bottom:var(--s4)}
 
-  .h-stats{display:flex;justify-content:center;gap:48px;margin-top:40px;opacity:0;animation:reveal .8s .4s forwards}
-  .h-stats .n{font-size:26px;font-weight:700;color:#fff;letter-spacing:-.5px}
-  .h-stats .n span{color:var(--red)}
-  .h-stats .l{font-size:11px;color:rgba(255,255,255,.2);margin-top:2px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s3);cursor:pointer;transition:all .25s}
+  .card:hover{box-shadow:0 4px 20px rgba(0,0,0,.04);transform:translateY(-2px)}
+  .card .ic{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:var(--s2)}
+  .card h3{font-size:14px;font-weight:600;margin-bottom:2px}
+  .card .meta{font-size:12px;color:var(--text2);margin-bottom:var(--s1)}
+  .card .badge{font-size:10px;color:var(--link);font-weight:500}
 
-  /* ── MAGNETIC GRID ── */
-  .grid-section{max-width:1100px;margin:0 auto;padding:60px 28px 40px}
-  .section-label{font-size:11px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
-  .section-title{font-size:22px;font-weight:600;margin-bottom:24px;letter-spacing:-.3px}
-  
-  .magnetic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
-  .mag-card{background:var(--white);border:1px solid rgba(0,0,0,.04);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all .4s var(--ease-out);position:relative;overflow:hidden}
-  .mag-card::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(245,27,27,.03),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none}
-  .mag-card:hover::before{opacity:1}
-  .mag-card:hover{transform:translateY(-3px);border-color:rgba(245,27,27,.08);box-shadow:0 8px 30px rgba(13,12,12,.04)}
-  .mag-card .ic{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px;background:rgba(245,27,27,.04);color:var(--red)}
-  .mag-card .ic.g{background:rgba(16,185,129,.04);color:#059669}
-  .mag-card .ic.y{background:rgba(245,158,11,.04);color:#d97706}
-  .mag-card .ic.b{background:rgba(99,102,241,.04);color:#4f46e5}
-  .mag-card .ic.p{background:rgba(236,72,153,.04);color:#db2777}
-  .mag-card .ic.t{background:rgba(6,182,212,.04);color:#0891b2}
-  .mag-card h3{font-size:13px;font-weight:600;margin-bottom:2px}
-  .mag-card .meta{font-size:11px;color:var(--gray)}
-  .mag-card .bar{height:3px;background:rgba(0,0,0,.03);border-radius:2px;overflow:hidden;margin:8px 0 4px}
-  .mag-card .bar-f{height:100%;background:var(--red);border-radius:2px;width:0%;transition:width 1.5s cubic-bezier(0,1,.15,1)}
-  .mag-card .stat{font-size:10px;color:var(--gray);display:flex;justify-content:space-between}
+  /* SIDEBAR */
+  .sidebox{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:var(--s4);margin-bottom:var(--s2)}
+  .sidebox h3{font-size:15px;font-weight:600;margin-bottom:var(--s1)}
+  .sidebox p{font-size:13px;color:var(--text2);line-height:1.47059}
+  .sidebox .price{font-size:28px;font-weight:700;letter-spacing:-.01em;margin:var(--s2) 0}
+  .sidebox .price small{font-size:12px;font-weight:400;color:var(--text2)}
+  .sidebox .btn-b{width:100%;padding:10px;border:none;border-radius:var(--radius-sm);font-size:13px;font-weight:400;cursor:pointer;font-family:var(--font);margin-top:var(--s2);background:var(--link);color:#fff;transition:opacity .2s}
+  .sidebox .btn-b:hover{opacity:.85}
+  .sidebox ul{list-style:none;padding:var(--s2) 0}
+  .sidebox ul li{padding:4px 0;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:6px}
+  .sidebox ul li::before{content:'✓';color:var(--link);font-weight:500}
 
-  /* ── INTERACTIVE FEATURES ── */
-  .feat-section{padding:40px 28px;border-top:1px solid rgba(0,0,0,.03)}
-  .feat-inner{max-width:1000px;margin:0 auto}
-  .feat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:20px}
-  .feat-item{padding:18px;border-radius:var(--radius);background:var(--white);border:1px solid rgba(0,0,0,.03);transition:all .35s var(--ease-out);cursor:default}
-  .feat-item:hover{border-color:rgba(245,27,27,.06);transform:translateY(-2px)}
-  .feat-item .fc{width:30px;height:30px;border-radius:6px;background:rgba(245,27,27,.03);display:flex;align-items:center;justify-content:center;font-size:13px;margin-bottom:6px}
-  .feat-item h3{font-size:12px;font-weight:600;margin-bottom:2px}
-  .feat-item p{font-size:11px;color:var(--gray);line-height:1.4}
+  /* ── APPLE FEATURES ── */
+  .features{background:var(--accent2);padding:var(--s7) 22px}
+  .feat-inner{max-width:980px;margin:0 auto}
+  .feat-inner h2{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-bottom:var(--s5);text-align:center}
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2)}
+  .feat-item{text-align:center;padding:var(--s4)}
+  .feat-item .fc{font-size:24px;margin-bottom:var(--s2);opacity:.7}
+  .feat-item h3{font-size:16px;font-weight:600;margin-bottom:var(--s1)}
+  .feat-item p{font-size:13px;color:var(--text2);line-height:1.47059;max-width:240px;margin:0 auto}
 
-  /* ── INTERACTIVE TESTIMONIAL ── */
-  .testi-wrap{max-width:500px;margin:40px auto 60px;padding:0 28px;text-align:center}
-  .testi-wrap blockquote{font-size:14px;line-height:1.7;color:var(--gray);font-weight:400}
-  .testi-wrap blockquote::before{content:'"';font-size:40px;color:var(--red);opacity:.12;display:block;font-weight:700;margin-bottom:-20px}
-  .testi-wrap cite{display:block;margin-top:10px;font-size:12px;font-weight:500;color:var(--black);font-style:normal}
-  .testi-wrap cite span{color:var(--gray);font-weight:400}
+  /* ── APPLE TESTIMONIAL ── */
+  .testi{max-width:520px;margin:var(--s7) auto;padding:0 22px;text-align:center}
+  .testi blockquote{font-size:18px;line-height:1.6;color:var(--text2);font-weight:400;letter-spacing:.004em}
+  .testi cite{display:block;margin-top:var(--s3);font-size:13px;font-weight:500;color:var(--text);font-style:normal}
+  .testi cite span{color:var(--text2);font-weight:400}
 
-  /* ── FOOTER ── */
-  footer{background:var(--black);color:rgba(255,255,255,.25);padding:48px 28px 28px}
-  .foot-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
-  .foot-inner h4{color:#fff;font-size:11px;font-weight:600;margin-bottom:10px;letter-spacing:.5px;text-transform:uppercase}
-  .foot-inner a{display:block;font-size:12px;padding:2px 0;transition:color .2s}
-  .foot-inner a:hover{color:var(--red)}
-  .foot-bot{max-width:1000px;margin:24px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.03);font-size:11px;text-align:center}
+  /* ── APPLE FOOTER ── */
+  footer{background:var(--accent2);color:var(--text2);padding:var(--s6) 22px var(--s4);font-size:12px;border-top:1px solid var(--border)}
+  .foot-inner{max-width:980px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4)}
+  .foot-inner h4{color:var(--text);font-size:12px;font-weight:600;margin-bottom:var(--s2);letter-spacing:.02em}
+  .foot-inner a{display:block;padding:3px 0;transition:color .2s}
+  .foot-inner a:hover{color:var(--link)}
+  .foot-bot{max-width:980px;margin:var(--s5) auto 0;padding-top:var(--s3);border-top:1px solid var(--border);text-align:center}
 
   @media(max-width:768px){
-    .links,.role-switch{display:none}
+    .nav-links{display:none}
     .hero h1{font-size:32px}
-    .h-stats{gap:24px;flex-wrap:wrap}
-    .magnetic-grid{grid-template-columns:repeat(2,1fr)}
-    .feat-row{grid-template-columns:1fr}
+    .hero p{font-size:16px}
+    .h-stats{gap:var(--s4);flex-wrap:wrap}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .feat-grid{grid-template-columns:1fr}
     .foot-inner{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
 <body>
 
-<!-- CUSTOM CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="follower"></div>
-<div class="scroll-progress" id="scroll-progress"></div>
-
-<div class="banner">2026 IB Past Papers Released — <strong>Browse the collection →</strong></div>
+<div class="accent-bar">2026 IB Past Papers Released — <strong>Browse the collection →</strong></div>
 
 <nav>
   <div class="nav-inner">
-    <div class="logo"><div class="ic">▲</div>Atlas<span>.</span></div>
-    <div class="role-switch">
-      <div class="active">Student</div>
-      <div>Teacher</div>
+    <div class="logo">△ Atlas<span>.</span></div>
+    <div class="nav-links">
+      <a href="#">Subjects</a>
+      <a href="#">Past Papers</a>
+      <a href="#">Resources</a>
+      <a href="#">Progress</a>
     </div>
-    <div class="search-wrap">
-      <span class="ico">⌕</span>
+    <div class="nav-search">
+      <span class="ic">⌕</span>
       <input placeholder="Search...">
     </div>
-    <div class="links">
-      <a href="#">Dashboard</a>
-      <a href="#">Subjects</a>
-      <a href="#">Papers</a>
-    </div>
-    <div class="btns">
+    <div class="nav-btns">
       <button class="btn btn-log">Sign In</button>
-      <button class="btn btn-red">Get Started</button>
+      <button class="btn btn-primary">Get Started</button>
     </div>
   </div>
 </nav>
 
 <div class="hero">
-  <h1>IB Revision,<br><span>Simplified</span></h1>
-  <p>Past papers, mastery tracking, and video walkthroughs — built for one purpose: your 45.</p>
+  <div class="hero-badge">New — AI-powered exam analysis <span>→</span></div>
+  <h1>IB revision.<br><span>Simplified.</span></h1>
+  <p>Past papers, topic mastery, and video walkthroughs — designed for one purpose: your best possible score.</p>
   <div class="h-search">
-    <span class="ico">⌕</span>
-    <input placeholder="Search subjects or papers...">
+    <span class="ic">⌕</span>
+    <input placeholder="Search subjects or exam papers...">
   </div>
   <div class="h-stats">
     <div><div class="n">2<span>,486</span></div><div class="l">Past Papers</div></div>
@@ -190,98 +174,66 @@
   </div>
 </div>
 
-<div class="grid-section">
-  <div class="section-label">IB DP Subjects</div>
-  <div class="section-title">Choose your path</div>
-  <div class="magnetic-grid">
-    <div class="mag-card"><div class="ic">🧬</div><h3>Biology</h3><div class="meta">128 tutorials · SL/HL</div><div class="bar"><div class="bar-f" data-w="82%"></div></div><div class="stat"><span>Mastery 82%</span><span>1,240</span></div></div>
-    <div class="mag-card"><div class="ic g">⚗️</div><h3>Chemistry</h3><div class="meta">142 tutorials · SL/HL</div><div class="bar"><div class="bar-f" style="background:#d97706" data-w="68%"></div></div><div class="stat"><span>Mastery 68%</span><span>980</span></div></div>
-    <div class="mag-card"><div class="ic y">⚡</div><h3>Physics</h3><div class="meta">115 tutorials · SL/HL</div><div class="bar"><div class="bar-f" style="background:#059669" data-w="75%"></div></div><div class="stat"><span>Mastery 75%</span><span>1,100</span></div></div>
-    <div class="mag-card"><div class="ic b">🧮</div><h3>Mathematics</h3><div class="meta">156 tutorials · AA/AI</div><div class="bar"><div class="bar-f" data-w="90%"></div></div><div class="stat"><span>Mastery 90%</span><span>2,050</span></div></div>
-    <div class="mag-card"><div class="ic p">📖</div><h3>English</h3><div class="meta">78 tutorials · A/B</div><div class="bar"><div class="bar-f" style="background:#d97706" data-w="55%"></div></div><div class="stat"><span>Mastery 55%</span><span>560</span></div></div>
-    <div class="mag-card"><div class="ic t">🌍</div><h3>Economics</h3><div class="meta">92 tutorials · SL/HL</div><div class="bar"><div class="bar-f" style="background:#059669" data-w="65%"></div></div><div class="stat"><span>Mastery 65%</span><span>720</span></div></div>
+<div class="content">
+  <div class="main">
+    <h2>IB DP Subjects</h2>
+    <div class="sub">SL &amp; HL · 6 subjects · Over 800 tutorials</div>
+    <div class="grid">
+      <div class="card"><div class="ic">🧬</div><h3>Biology</h3><div class="meta">SL &amp; HL · 128 tutorials</div><span class="badge">42 past papers</span></div>
+      <div class="card"><div class="ic">⚗️</div><h3>Chemistry</h3><div class="meta">SL &amp; HL · 142 tutorials</div><span class="badge">38 past papers</span></div>
+      <div class="card"><div class="ic">⚡</div><h3>Physics</h3><div class="meta">SL &amp; HL · 115 tutorials</div><span class="badge">35 past papers</span></div>
+      <div class="card"><div class="ic">🧮</div><h3>Mathematics</h3><div class="meta">AA &amp; AI · 156 tutorials</div><span class="badge">52 past papers</span></div>
+      <div class="card"><div class="ic">📖</div><h3>English</h3><div class="meta">A &amp; B · 78 tutorials</div><span class="badge">28 past papers</span></div>
+      <div class="card"><div class="ic">🌍</div><h3>Economics</h3><div class="meta">SL &amp; HL · 92 tutorials</div><span class="badge">24 past papers</span></div>
+    </div>
   </div>
-</div>
 
-<div class="feat-section">
-  <div class="feat-inner">
-    <div class="section-label">Why Atlas</div>
-    <div class="feat-row">
-      <div class="feat-item"><div class="fc">🎯</div><h3>Targeted Practice</h3><p>AI pinpoints your weak topics and adapts questions.</p></div>
-      <div class="feat-item"><div class="fc">📈</div><h3>Live Tracking</h3><p>Real-time mastery scores for every topic.</p></div>
-      <div class="feat-item"><div class="fc">🎥</div><h3>Video Solutions</h3><p>Every past paper solved step-by-step.</p></div>
+   <div>
+    <div class="sidebox">
+      <h3>Unlock Full Access</h3>
+      <p>Everything you need for IB success.</p>
+      <div class="price">$9.99 <small>/mo</small></div>
+      <ul>
+        <li>All past papers and markschemes</li>
+        <li>Topic-by-topic practice</li>
+        <li>Video walkthrough library</li>
+        <li>AI progress tracking</li>
+      </ul>
+      <button class="btn-b">Start Free Trial</button>
+    </div>
+    <div class="sidebox">
+      <h3>Your Progress</h3>
+      <div style="height:4px;background:rgba(0,0,0,.04);border-radius:2px;overflow:hidden;margin:10px 0"><div style="height:100%;width:42%;background:var(--link);border-radius:2px"></div></div>
+      <p style="font-size:12px;color:var(--text2)">42% complete — 34 of 80 topics</p>
     </div>
   </div>
 </div>
 
-<div class="testi-wrap">
-  <blockquote>Atlas transformed how I prepared for IB. The targeted practice and video walkthroughs made all the difference. Scored a 45.</blockquote>
+<div class="features">
+  <div class="feat-inner">
+    <h2>Why Atlas.</h2>
+    <div class="feat-grid">
+      <div class="feat-item"><div class="fc">🎯</div><h3>Targeted Practice</h3><p>AI pinpoints your weak topics and adapts questions accordingly.</p></div>
+      <div class="feat-item"><div class="fc">📊</div><h3>Real-time Tracking</h3><p>See your mastery level for every topic, updated instantly.</p></div>
+      <div class="feat-item"><div class="fc">🎥</div><h3>Video Solutions</h3><p>Step-by-step walkthroughs for every past paper question.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="testi">
+  <blockquote>Atlas completely transformed how I prepared for IB. The targeted practice and video walkthroughs made all the difference. I scored a 45.</blockquote>
   <cite>— Emma L. <span>IB Diploma 45/45</span></cite>
 </div>
 
 <footer>
   <div class="foot-inner">
     <div><h4>Atlas</h4><a href="#">About</a><a href="#">Contact</a></div>
-    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a></div>
-    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Video Library</a><a href="#">Guides</a></div>
+    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a><a href="#">Mathematics</a></div>
+    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Video Library</a><a href="#">Study Guides</a></div>
     <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Privacy</a><a href="#">Terms</a></div>
   </div>
-  <div class="foot-bot">© 2026 Atlas</div>
+  <div class="foot-bot">© 2026 Atlas. All rights reserved.</div>
 </footer>
 
-<script>
-// ── CUSTOM CURSOR ──
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('follower');
-let mx = 0, my = 0, cx = 0, cy = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-});
-function follow(){
-  cx += (mx - cx) * .08;
-  cy += (my - cy) * .08;
-  follower.style.left = cx + 'px'; follower.style.top = cy + 'px';
-  requestAnimationFrame(follow);
-}
-follow();
-
-document.querySelectorAll('a, button, .mag-card').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-});
-
-// ── SCROLL PROGRESS ──
-const progress = document.getElementById('scroll-progress');
-window.addEventListener('scroll', () => {
-  const h = document.documentElement.scrollHeight - window.innerHeight;
-  progress.style.width = (window.scrollY / h * 100) + '%';
-});
-
-// ── MAGNETIC CARDS ──
-document.querySelectorAll('.mag-card').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width * 100;
-    const y = (e.clientY - r.top) / r.height * 100;
-    card.style.setProperty('--mx', x + '%');
-    card.style.setProperty('--my', y + '%');
-  });
-});
-
-// ── SCROLL ANIMATION ──
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){
-      e.target.style.width = e.target.dataset.w || '0%';
-    }
-  });
-}, {threshold:.15});
-document.querySelectorAll('.bar-f').forEach(el => {
-  el.dataset.w = el.style.width;
-  el.style.width = '0%';
-  obs.observe(el);
-});
-</script>
 </body>
 </html>
