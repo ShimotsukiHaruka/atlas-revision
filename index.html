@@ -2,317 +2,252 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Atlas — The Future of IB Revision</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&family=Plus+Jakarta+Sans:wght@400..800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atlas Revision — IB Excellence</title>
+<!-- SME font -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- RV fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-  
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
   :root{
-    --bg:#f6f8fc;--navy:#0a1628;--slate:#1a2a4a;
-    --orange:#f59e0b;--blue:#3b82f6;--teal:#14b8a6;
-    --white:#fff;--gray:#6b7a99;--light:#e2e8f0;
-    --radius:16px;--font:'Inter','Plus Jakarta Sans',sans-serif;
-    --shadow:0 4px 24px rgba(10,22,40,.06);
-    --shadow-hover:0 12px 40px rgba(10,22,40,.1);
+    /* SME colors */
+    --sme-blue:#265bf6; --sme-bg:#fbfafa; --sme-text:#323232; --sme-gray:#6e6e6e; --sme-border:#e2e2e2;
+    /* RV colors */
+    --rv-navy:#00173B; --rv-orange:#F79009; --rv-bg:#F8F9FB; --rv-gray:#8191AA; --rv-light:#D4DAE2;
+    /* Fusion */
+    --white:#fff; --radius:12px; --radius-lg:16px;
+    --font-sme:'Plus Jakarta Sans',-apple-system,sans-serif;
+    --font-rv:'Inter','Manrope',-apple-system,sans-serif;
   }
-  body{font-family:var(--font);background:var(--bg);color:var(--navy);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{font-family:var(--font-sme);background:var(--sme-bg);color:var(--sme-text);-webkit-font-smoothing:antialiased;min-height:100vh}
   a{text-decoration:none;color:inherit}
 
-  /* ── NAV ── */
-  nav{background:rgba(255,255,255,.8);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,.04);position:sticky;top:0;z-index:100}
-  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:20px;padding:0 28px;height:64px}
-  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.4px}
-  .logo .icon{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;color:var(--white);font-size:16px}
-  .logo span{background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .logo small{font-size:10px;font-weight:500;color:var(--gray);letter-spacing:.5px;-webkit-text-fill-color:var(--gray);margin-left:2px}
+  /* ── SME-STYLE TOP BANNER ── */
+  .top-bar{background:var(--sme-blue);color:#fff;text-align:center;padding:10px 16px;font-size:13px;font-weight:500}
+  .top-bar strong{text-decoration:underline;cursor:pointer}
 
-  .role-toggle{display:flex;background:var(--bg);border-radius:30px;padding:3px;font-size:12px;font-weight:600;border:1px solid var(--light)}
-  .role-toggle div{padding:5px 16px;border-radius:27px;cursor:pointer;color:var(--gray);transition:all .2s}
-  .role-toggle div.active{background:var(--white);color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  /* ── RV-STYLE NAVIGATION ── */
+  nav{background:var(--rv-navy);position:sticky;top:0;z-index:100}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:0 28px;height:66px}
+  .logo{font-family:var(--font-rv);font-weight:800;font-size:20px;color:#fff;letter-spacing:-.4px;display:flex;align-items:center;gap:8px}
+  .logo svg{flex-shrink:0}
+  .logo span{color:var(--rv-orange)}
 
-  .search-box{flex:1;max-width:300px;position:relative}
-  .search-box input{width:100%;padding:9px 14px 9px 38px;border:1px solid var(--light);border-radius:24px;font-size:13px;outline:none;background:var(--bg);font-family:var(--font);transition:all .2s}
-  .search-box input:focus{border-color:var(--blue);background:var(--white);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-  .search-box .icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--gray);pointer-events:none}
+  .role-switch{display:flex;background:rgba(255,255,255,.08);border-radius:30px;padding:2px;font-size:12px;font-weight:600;font-family:var(--font-sme)}
+  .role-switch div{padding:5px 16px;border-radius:28px;cursor:pointer;color:rgba(255,255,255,.5);transition:all .15s}
+  .role-switch div.active{background:rgba(255,255,255,.12);color:#fff}
 
-  .nav-links{display:flex;gap:6px}
-  .nav-links a{padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--gray);transition:all .15s}
-  .nav-links a:hover{background:var(--bg);color:var(--navy)}
+  .nav-search{flex:1;max-width:280px;position:relative}
+  .nav-search input{width:100%;padding:9px 14px 9px 36px;border-radius:20px;border:none;font-size:13px;background:rgba(255,255,255,.1);color:#fff;outline:none;font-family:var(--font-sme)}
+  .nav-search input::placeholder{color:rgba(255,255,255,.35)}
+  .nav-search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:12px;opacity:.5}
+
+  .nav-links{display:flex;gap:18px;font-size:13px;font-weight:500}
+  .nav-links a{color:rgba(255,255,255,.6);transition:.15s}
+  .nav-links a:hover{color:#fff}
 
   .nav-btns{display:flex;gap:8px}
-  .btn{font-size:12px;font-weight:600;padding:8px 18px;border-radius:10px;border:none;cursor:pointer;transition:all .2s;font-family:var(--font)}
-  .btn-login{background:transparent;color:var(--navy)}
-  .btn-login:hover{background:var(--bg)}
-  .btn-primary{background:linear-gradient(135deg,var(--blue),var(--teal));color:var(--white)}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,.3)}
+  .nav-btns .btn{padding:8px 18px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:.15s;font-family:var(--font-sme)}
+  .nav-btns .btn-log{background:rgba(255,255,255,.08);color:rgba(255,255,255,.85)}
+  .nav-btns .btn-log:hover{background:rgba(255,255,255,.14)}
+  .nav-btns .btn-start{background:var(--rv-orange);color:var(--rv-navy)}
+  .nav-btns .btn-start:hover{background:#e08008}
+
+  /* ── SME-STYLE HERO ── */
+  .hero{background:var(--sme-bg);padding:48px 28px 40px;text-align:center}
+  .hero h1{font-size:40px;font-weight:800;color:var(--sme-text);letter-spacing:-.5px}
+  .hero h1 span{color:var(--sme-blue)}
+  .hero p{font-size:16px;color:var(--sme-gray);margin:10px auto 24px;max-width:480px;line-height:1.5}
+
+  /* SME-STYLE SEARCH */
+  .hero-search{position:relative;max-width:520px;margin:0 auto}
+  .hero-search input{width:100%;padding:14px 18px 14px 46px;border:2px solid var(--sme-border);border-radius:40px;font-size:15px;outline:none;font-family:var(--font-sme);transition:.15s;background:#fff}
+  .hero-search input:focus{border-color:var(--sme-blue);box-shadow:0 0 0 3px rgba(38,91,246,.08)}
+  .hero-search .ic{position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--sme-gray)}
+
+  /* ── RV-STYLE STATS BAR ── */
+  .stats-bar{background:var(--white);border-top:1px solid var(--sme-border);border-bottom:1px solid var(--sme-border);padding:24px 28px}
+  .stats-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center}
+  .stat-num{font-family:var(--font-rv);font-size:30px;font-weight:800;color:var(--rv-navy)}
+  .stat-num span{color:var(--rv-orange)}
+  .stat-lbl{font-size:12px;color:var(--rv-gray);margin-top:2px}
+
+  /* ── SME-STYLE EXAM BOARDS ── */
+  .boards{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:20px 28px 0;max-width:900px;margin:0 auto}
+  .board-pill{padding:7px 18px;border-radius:20px;font-size:13px;font-weight:600;background:var(--white);color:var(--sme-text);border:1px solid var(--sme-border);cursor:pointer;transition:.15s}
+  .board-pill:hover{border-color:var(--sme-blue);color:var(--sme-blue)}
+  .board-pill.active{background:var(--sme-blue);color:var(--white);border-color:var(--sme-blue)}
+
+  /* ── CONTENT (SME layout + RV card style) ── */
+  .content{max-width:1200px;margin:0 auto;padding:28px 28px 50px;display:grid;grid-template-columns:1fr 320px;gap:28px}
+  @media(max-width:900px){.content{grid-template-columns:1fr}}
+
+  .main{}
+  .main h2{font-size:22px;font-weight:700;margin-bottom:4px}
+  .main .sub{font-size:13px;color:var(--sme-gray);margin-bottom:18px}
+
+  /* RV-STYLE SUBJECT CARDS */
+  .subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .subj-card{background:var(--white);border:1px solid var(--sme-border);border-radius:var(--radius-lg);padding:18px;transition:all .25s;cursor:pointer}
+  .subj-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,23,59,.08);border-color:rgba(247,144,9,.2)}
+  .subj-card .ic{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px}
+  .subj-card .ic.c1{background:rgba(247,144,9,.1)}
+  .subj-card .ic.c2{background:rgba(38,91,246,.1)}
+  .subj-card .ic.c3{background:rgba(16,185,129,.1)}
+  .subj-card .ic.c4{background:rgba(139,92,246,.1)}
+  .subj-card .ic.c5{background:rgba(236,72,153,.1)}
+  .subj-card .ic.c6{background:rgba(6,182,212,.1)}
+  .subj-card h3{font-size:14px;font-weight:700;margin-bottom:2px}
+  .subj-card .meta{font-size:12px;color:var(--sme-gray);margin-bottom:6px}
+  .subj-card .bar{height:5px;background:#eef0f4;border-radius:3px;overflow:hidden;margin:8px 0 4px}
+  .subj-card .bar-fill{height:100%;background:linear-gradient(90deg,var(--sme-blue),var(--rv-orange));border-radius:3px;transition:width 1s}
+  .subj-card .stat{font-size:11px;color:var(--rv-gray);display:flex;justify-content:space-between}
+  .subj-card .badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;margin-top:6px}
+  .subj-card .badge.sme{background:rgba(38,91,246,.08);color:var(--sme-blue)}
+  .subj-card .badge.rv{background:rgba(247,144,9,.1);color:#b86b00}
+
+  /* SME-STYLE SIDEBAR */
+  .sidebox{background:var(--white);border:1px solid var(--sme-border);border-radius:var(--radius-lg);padding:22px;margin-bottom:14px}
+  .sidebox h3{font-size:15px;font-weight:700;margin-bottom:8px}
+  .sidebox p{font-size:13px;color:var(--sme-gray);line-height:1.5;margin-bottom:8px}
+  .sidebox .price{font-size:30px;font-weight:800;color:var(--sme-blue)}
+  .sidebox .price small{font-size:13px;font-weight:400;color:var(--sme-gray)}
+  .sidebox .btn-block{width:100%;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:var(--font-sme);margin-top:10px}
+  .sidebox .btn-primary{background:var(--sme-blue);color:#fff}
+  .sidebox .btn-primary:hover{background:#1a4ad4}
+  .check-list{list-style:none;padding:10px 0}
+  .check-list li{padding:5px 0;font-size:13px;display:flex;align-items:center;gap:8px}
+  .check-list li::before{content:'✓';color:var(--sme-blue);font-weight:700}
+
+  /* RV-STYLE TESTIMONIAL */
+  .testi{max-width:650px;margin:0 auto 40px;padding:0 28px;text-align:center}
+  .testi blockquote{font-size:16px;line-height:1.6;color:var(--rv-gray);font-style:italic}
+  .testi cite{display:block;margin-top:10px;font-size:13px;font-weight:600;color:var(--rv-navy);font-style:normal}
+  .testi cite span{color:var(--rv-gray);font-weight:400}
+
+  /* RV-STYLE FOOTER */
+  footer{background:var(--rv-navy);color:rgba(255,255,255,.5);padding:40px 28px 28px}
+  .footer-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .footer-inner h4{color:#fff;font-size:13px;font-weight:700;margin-bottom:8px}
+  .footer-inner a{display:block;font-size:12px;color:rgba(255,255,255,.5);padding:3px 0}
+  .footer-inner a:hover{color:var(--rv-orange)}
+  .foot-bottom{max-width:1000px;margin:20px auto 0;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);font-size:11px;text-align:center}
 
   @media(max-width:768px){
-    .nav-links,.role-toggle{display:none}
-    .nav-inner{gap:12px}
-  }
-
-  /* ── HERO ── */
-  .hero{background:linear-gradient(135deg,var(--navy),var(--slate));padding:80px 28px 100px;position:relative;overflow:hidden}
-  .hero::before{content:'';position:absolute;top:-40%;right:-20%;width:800px;height:800px;background:radial-gradient(circle,rgba(59,130,246,.06),transparent 60%);border-radius:50%}
-  .hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(20,184,166,.04),transparent 60%);border-radius:50%}
-  
-  .hero-content{max-width:1200px;margin:0 auto;position:relative;z-index:2}
-  .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);padding:6px 14px;border-radius:30px;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:20px}
-  .hero-badge span{color:var(--orange)}
-  .hero h1{font-size:52px;font-weight:800;line-height:1.08;color:var(--white);letter-spacing:-1px;max-width:700px}
-  .hero h1 span{background:linear-gradient(135deg,var(--blue),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hero p{font-size:17px;color:rgba(255,255,255,.5);margin:16px 0 28px;line-height:1.6;max-width:500px}
-  .hero-actions{display:flex;gap:10px}
-  .hero-actions .btn-primary{padding:14px 28px;font-size:14px;font-weight:700}
-  .hero-actions .btn-outline{padding:14px 28px;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.15);background:transparent;color:var(--white);border-radius:12px;cursor:pointer;transition:all .2s;font-family:var(--font)}
-  .hero-actions .btn-outline:hover{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.25)}
-  
-  .hero-stats{display:flex;gap:32px;margin-top:36px}
-  .hero-stats .hs-num{font-size:28px;font-weight:800;color:var(--white)}
-  .hero-stats .hs-num span{color:var(--orange)}
-  .hero-stats .hs-lbl{font-size:13px;color:rgba(255,255,255,.4);margin-top:2px}
-
-  @media(max-width:768px){
-    .hero h1{font-size:32px}
-    .hero-stats{gap:20px;flex-wrap:wrap}
-    .hero-stats .hs-num{font-size:22px}
-  }
-
-  /* ── SEARCHBAR ── */
-  .search-bar{max-width:900px;margin:-40px auto 0;padding:0 28px;position:relative;z-index:20}
-  .search-card{background:var(--white);border-radius:24px;padding:12px 16px;box-shadow:0 24px 48px rgba(10,22,40,.12);display:flex;align-items:center;gap:12px}
-  .search-card input{flex:1;border:none;padding:10px 16px;font-size:15px;outline:none;font-family:var(--font);background:transparent}
-  .search-card .pill{padding:8px 16px;border:1px solid var(--light);border-radius:30px;font-size:12px;font-weight:500;color:var(--gray);cursor:pointer;transition:all .15s;white-space:nowrap}
-  .search-card .pill.active{background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(20,184,166,.08));border-color:var(--blue);color:var(--blue)}
-
-  /* ── BOARDS ── */
-  .boards{max-width:900px;margin:24px auto 0;padding:0 28px;display:flex;gap:8px;flex-wrap:wrap}
-  .board-btn{padding:8px 18px;border-radius:30px;font-size:13px;font-weight:600;border:1px solid var(--light);background:var(--white);cursor:pointer;transition:all .2s;font-family:var(--font);color:var(--gray)}
-  .board-btn:hover{border-color:var(--blue);color:var(--blue)}
-  .board-btn.active{background:linear-gradient(135deg,var(--blue),var(--teal));color:var(--white);border-color:transparent}
-
-  /* ── SUBJECTS ── */
-  .section{max-width:960px;margin:40px auto 0;padding:0 28px 60px}
-  .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-  .section-title h2{font-size:22px;font-weight:800;letter-spacing:-.3px}
-  .section-title a{font-size:13px;color:var(--blue);font-weight:600;display:flex;align-items:center;gap:4px}
-  .section-title a:hover{text-decoration:underline}
-
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-  .card{background:var(--white);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);cursor:pointer;transition:all .3s;border:1px solid transparent;animation:fadeInUp .5s both}
-  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:rgba(59,130,246,.15)}
-  .card .ic{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px;position:relative}
-  .card .ic .glow{position:absolute;inset:0;border-radius:12px;opacity:0;transition:opacity .3s;background:var(--c)}
-  .card:hover .ic .glow{opacity:.2}
-  .card h3{font-size:15px;font-weight:700;margin-bottom:3px}
-  .card .meta{font-size:12px;color:var(--gray);margin-bottom:6px}
-  .card .tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
-  .card .tag{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--bg);color:var(--gray)}
-  
-  .card .progress{height:5px;background:#eef2f6;border-radius:4px;overflow:hidden;margin:10px 0 4px}
-  .card .progress .fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--teal));transition:width 1.5s ease}
-  .card .stats{display:flex;justify-content:space-between;font-size:11px;color:var(--gray)}
-
-  .card .badge{display:inline-block;font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px}
-  
-  .c1{--c:rgba(59,130,246,.15)} .c1 .ic{background:rgba(59,130,246,.1)}
-  .c2{--c:rgba(20,184,166,.15)} .c2 .ic{background:rgba(20,184,166,.1)}
-  .c3{--c:rgba(245,158,11,.15)} .c3 .ic{background:rgba(245,158,11,.1)}
-  .c4{--c:rgba(139,92,246,.15)} .c4 .ic{background:rgba(139,92,246,.1)}
-  .c5{--c:rgba(236,72,153,.15)} .c5 .ic{background:rgba(236,72,153,.1)}
-  .c6{--c:rgba(239,68,68,.15)} .c6 .ic{background:rgba(239,68,68,.1)}
-
-  /* ── FEATURES ── */
-  .features{background:var(--white);padding:48px 28px;border-top:1px solid var(--light)}
-  .features-inner{max-width:900px;margin:0 auto}
-  .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:24px}
-  .feature-card{padding:20px;border-radius:var(--radius);background:var(--bg);transition:all .2s}
-  .feature-card:hover{transform:translateY(-2px)}
-  .feature-card .fc-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(20,184,166,.1));display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
-  .feature-card h3{font-size:14px;font-weight:700;margin-bottom:4px}
-  .feature-card p{font-size:12px;color:var(--gray);line-height:1.5}
-
-  /* ── TESTIMONIAL ── */
-  .testimonial{max-width:600px;margin:40px auto;padding:0 28px;text-align:center}
-  .testimonial blockquote{font-size:18px;font-weight:500;line-height:1.6;color:var(--navy);letter-spacing:-.2px}
-  .testimonial blockquote::before{content:'"';color:var(--blue);font-size:36px;font-weight:800;opacity:.3;display:block;margin-bottom:-10px}
-  .testimonial cite{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;font-size:13px;font-weight:600;font-style:normal}
-  .testimonial cite span{color:var(--gray);font-weight:400}
-  .testimonial cite img{width:28px;height:28px;border-radius:50%;background:var(--light)}
-
-  /* ── FOOTER ── */
-  footer{background:var(--navy);color:rgba(255,255,255,.45);padding:48px 28px 32px}
-  .footer-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
-  .footer-inner h4{color:var(--white);font-size:13px;font-weight:700;margin-bottom:10px}
-  .footer-inner a{display:block;font-size:12px;padding:4px 0;transition:all .15s}
-  .footer-inner a:hover{color:var(--orange)}
-  .footer-bottom{max-width:960px;margin:28px auto 0;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;text-align:center;color:rgba(255,255,255,.3)}
-
-  @media(max-width:768px){
-    .features-grid{grid-template-columns:1fr}
+    .nav-links,.nav-btns .btn-log{display:none}
+    .hero h1{font-size:28px}
+    .subj-grid{grid-template-columns:repeat(2,1fr)}
+    .stats-inner{grid-template-columns:repeat(2,1fr)}
     .footer-inner{grid-template-columns:repeat(2,1fr)}
-    .grid{grid-template-columns:repeat(2,1fr)}
   }
 </style>
 </head>
 <body>
 
+<div class="top-bar">🎓 New: 2026 IB Past Papers Released — <strong>Browse Now →</strong></div>
+
 <nav>
   <div class="nav-inner">
     <div class="logo">
-      <div class="icon">✦</div>
-      Atlas<span>.</span><small>IB</small>
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none"><rect width="30" height="30" rx="8" fill="#F79009"/><path d="M8 20V10l7 5 7-5v10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/></svg>
+      Atlas<span> Revision</span>
     </div>
-    <div class="role-toggle">
+    <div class="role-switch">
       <div class="active">Student</div>
       <div>Teacher</div>
     </div>
-    <div class="search-box">
-      <span class="icon">🔍</span>
-      <input placeholder="Search subjects, topics, papers...">
+    <div class="nav-search">
+      <span class="ic">🔍</span>
+      <input placeholder="Search subjects, topics...">
     </div>
     <div class="nav-links">
-      <a href="#">Dashboard</a>
       <a href="#">Subjects</a>
-      <a href="#">Progress</a>
+      <a href="#">Exam Boards</a>
+      <a href="#">Past Papers</a>
     </div>
     <div class="nav-btns">
-      <button class="btn btn-login">Sign In</button>
-      <button class="btn btn-primary">Get Started</button>
+      <button class="btn btn-log">Log In</button>
+      <button class="btn btn-start">Join Free</button>
     </div>
   </div>
 </nav>
 
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-badge">🔥 New: 2026 IB Past Papers &amp; Mark Schemes <span>Browse →</span></div>
-    <h1>IB Revision,<br>But <span>Smarter</span></h1>
-    <p>Past papers, topic questions, video walkthroughs, and AI-powered progress tracking — designed to get you that 7.</p>
-    <div class="hero-actions">
-      <button class="btn btn-primary">Start Free Trial →</button>
-      <button class="btn btn-outline">View Demo</button>
-    </div>
-    <div class="hero-stats">
-      <div><div class="hs-num">2<span>,486</span></div><div class="hs-lbl">Past Papers</div></div>
-      <div><div class="hs-num">12k<span>+</span></div><div class="hs-lbl">Practice Questions</div></div>
-      <div><div class="hs-num">98.<span>7</span>%</div><div class="hs-lbl">IB Pass Rate</div></div>
-      <div><div class="hs-num">50k<span>+</span></div><div class="hs-lbl">Students</div></div>
-    </div>
+<div class="hero">
+  <h1>IB Revision That <span>Actually Works</span></h1>
+  <p>Trusted by 50,000+ students. Past papers, topic questions, and video walkthroughs — all in one place.</p>
+  <div class="hero-search">
+    <span class="ic">🔍</span>
+    <input placeholder="Search for a subject or exam board...">
   </div>
-</section>
+</div>
 
-<div class="search-bar">
-  <div class="search-card">
-    <span style="font-size:16px;color:var(--gray);padding-left:8px">🔍</span>
-    <input placeholder="Search for a subject, topic or paper...">
-    <div class="pill active">All</div>
-    <div class="pill">Biology</div>
-    <div class="pill">Chemistry</div>
-    <button class="btn btn-primary" style="padding:10px 20px">Search</button>
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div><div class="stat-num">2<span>,486</span></div><div class="stat-lbl">Past Papers</div></div>
+    <div><div class="stat-num">12k<span>+</span></div><div class="stat-lbl">Practice Questions</div></div>
+    <div><div class="stat-num">98<span>.7%</span></div><div class="stat-lbl">IB Pass Rate</div></div>
+    <div><div class="stat-num">50k<span>+</span></div><div class="stat-lbl">Students</div></div>
   </div>
 </div>
 
 <div class="boards">
-  <div class="board-btn active">IB DP</div>
-  <div class="board-btn">IB MYP</div>
-  <div class="board-btn">CIE</div>
-  <div class="board-btn">Edexcel</div>
-  <div class="board-btn">AQA</div>
-  <div class="board-btn">OCR</div>
-  <div class="board-btn">AP</div>
-  <div class="board-btn">SAT</div>
+  <div class="board-pill active">All</div>
+  <div class="board-pill">IB DP</div>
+  <div class="board-pill">IB MYP</div>
+  <div class="board-pill">CIE</div>
+  <div class="board-pill">Edexcel</div>
+  <div class="board-pill">AQA</div>
 </div>
 
-<section class="section">
-  <div class="section-title">
-    <h2>📚 Your Subjects</h2>
-    <a href="#">View all →</a>
-  </div>
-  <div class="grid">
-    <div class="card c1" style="animation-delay:0s">
-      <div class="ic"><div class="glow"></div>🧬</div>
-      <h3>Biology</h3>
-      <div class="meta">SL · HL · 128 tutorials</div>
-      <div class="progress"><div class="fill" style="width:72%"></div></div>
-      <div class="stats"><span>Mastery: 72%</span><span>1,240 questions</span></div>
-      <div class="tags"><span class="tag">Cell Bio</span><span class="tag">Genetics</span></div>
-    </div>
-    <div class="card c2" style="animation-delay:.08s">
-      <div class="ic"><div class="glow"></div>⚗️</div>
-      <h3>Chemistry</h3>
-      <div class="meta">SL · HL · 142 tutorials</div>
-      <div class="progress"><div class="fill" style="width:58%"></div></div>
-      <div class="stats"><span>Mastery: 58%</span><span>980 questions</span></div>
-      <div class="tags"><span class="tag">Organic</span><span class="tag">Bonding</span></div>
-    </div>
-    <div class="card c3" style="animation-delay:.16s">
-      <div class="ic"><div class="glow"></div>⚡</div>
-      <h3>Physics</h3>
-      <div class="meta">SL · HL · 115 tutorials</div>
-      <div class="progress"><div class="fill" style="width:65%"></div></div>
-      <div class="stats"><span>Mastery: 65%</span><span>1,100 questions</span></div>
-      <div class="tags"><span class="tag">Mechanics</span><span class="tag">Waves</span></div>
-    </div>
-    <div class="card c4" style="animation-delay:.24s">
-      <div class="ic"><div class="glow"></div>🧮</div>
-      <h3>Mathematics</h3>
-      <div class="meta">AA · AI · 156 tutorials</div>
-      <div class="progress"><div class="fill" style="width:80%"></div></div>
-      <div class="stats"><span>Mastery: 80%</span><span>2,050 questions</span></div>
-      <div class="tags"><span class="tag">Calculus</span><span class="tag">Algebra</span></div>
-    </div>
-    <div class="card c5" style="animation-delay:.32s">
-      <div class="ic"><div class="glow"></div>📖</div>
-      <h3>English A</h3>
-      <div class="meta">Literature · Language</div>
-      <div class="progress"><div class="fill" style="width:45%"></div></div>
-      <div class="stats"><span>Mastery: 45%</span><span>560 questions</span></div>
-      <div class="tags"><span class="tag">Poetry</span><span class="tag">Essay</span></div>
-    </div>
-    <div class="card c6" style="animation-delay:.4s">
-      <div class="ic"><div class="glow"></div>🌍</div>
-      <h3>Economics</h3>
-      <div class="meta">SL · HL · 92 tutorials</div>
-      <div class="progress"><div class="fill" style="width:55%"></div></div>
-      <div class="stats"><span>Mastery: 55%</span><span>720 questions</span></div>
-      <div class="tags"><span class="tag">Micro</span><span class="tag">Macro</span></div>
+<div class="content">
+  <div class="main">
+    <h2>IB DP Subjects</h2>
+    <div class="sub">SL &amp; HL · 6 core subjects · 800+ video tutorials</div>
+    <div class="subj-grid">
+      <div class="subj-card"><div class="ic c1">🧬</div><h3>Biology</h3><div class="meta">SL · HL · 128 video tutorials</div><div class="bar"><div class="bar-fill" style="width:72%"></div></div><div class="stat"><span>Mastery: 72%</span><span>1,240 questions</span></div><span class="badge sme">Most Popular</span></div>
+      <div class="subj-card"><div class="ic c2">⚗️</div><h3>Chemistry</h3><div class="meta">SL · HL · 142 video tutorials</div><div class="bar"><div class="bar-fill" style="width:58%"></div></div><div class="stat"><span>Mastery: 58%</span><span>980 questions</span></div><span class="badge rv">New Content</span></div>
+      <div class="subj-card"><div class="ic c3">⚡</div><h3>Physics</h3><div class="meta">SL · HL · 115 video tutorials</div><div class="bar"><div class="bar-fill" style="width:65%"></div></div><div class="stat"><span>Mastery: 65%</span><span>1,100 questions</span></div></div>
+      <div class="subj-card"><div class="ic c4">🧮</div><h3>Mathematics</h3><div class="meta">AA · AI · 156 video tutorials</div><div class="bar"><div class="bar-fill" style="width:80%"></div></div><div class="stat"><span>Mastery: 80%</span><span>2,050 questions</span></div><span class="badge sme">Top Rated</span></div>
+      <div class="subj-card"><div class="ic c5">📖</div><h3>English</h3><div class="meta">A · B · 78 video tutorials</div><div class="bar"><div class="bar-fill" style="width:45%"></div></div><div class="stat"><span>Mastery: 45%</span><span>560 questions</span></div></div>
+      <div class="subj-card"><div class="ic c6">🌍</div><h3>Economics</h3><div class="meta">SL · HL · 92 video tutorials</div><div class="bar"><div class="bar-fill" style="width:55%"></div></div><div class="stat"><span>Mastery: 55%</span><span>720 questions</span></div></div>
     </div>
   </div>
-</section>
+  
+  <div>
+    <div class="sidebox">
+      <h3>Unlock Full Access</h3>
+      <p>Get unlimited access to all IB resources</p>
+      <div class="price">$9.99 <small>/month</small></div>
+      <ul class="check-list">
+        <li>All past papers &amp; mark schemes</li>
+        <li>Topic-by-topic questions</li>
+        <li>Video walkthroughs</li>
+        <li>Progress tracking</li>
+      </ul>
+      <button class="btn-block btn-primary">Start Free Trial</button>
+    </div>
+    <div class="sidebox">
+      <h3>Your Progress</h3>
+      <div style="height:6px;background:#eee;border-radius:3px;overflow:hidden;margin:8px 0"><div style="height:100%;width:35%;background:linear-gradient(90deg,#265bf6,#F79009);border-radius:3px"></div></div>
+      <p style="font-size:12px;color:#8191AA">35% complete · 28 of 80 topics</p>
+    </div>
+  </div>
+</div>
 
-<section class="features">
-  <div class="features-inner">
-    <div class="section-title" style="margin-bottom:0">
-      <h2>⚡ Why Atlas?</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card"><div class="fc-icon">📝</div><h3>Smart Practice</h3><p>Adaptive questions that target your weak spots, not your strengths.</p></div>
-      <div class="feature-card"><div class="fc-icon">📊</div><h3>Progress Tracking</h3><p>Real-time mastery scores for every topic. Know exactly where to focus.</p></div>
-      <div class="feature-card"><div class="fc-icon">🎥</div><h3>Video Walkthroughs</h3><p>Step-by-step solutions for every past paper question.</p></div>
-      <div class="feature-card"><div class="fc-icon">🤖</div><h3>AI Tutor</h3><p>Get instant explanations for any question. Available 24/7.</p></div>
-      <div class="feature-card"><div class="fc-icon">📚</div><h3>Complete Library</h3><p>Every past paper, every mark scheme, every syllabus — all in one place.</p></div>
-      <div class="feature-card"><div class="fc-icon">🏆</div><h3>Exam Simulation</h3><p>Timed mock exams that mirror the real IB experience.</p></div>
-    </div>
-  </div>
-</section>
-
-<div class="testimonial">
-  <blockquote>Atlas completely changed how I prepared for my IB. The progress tracking and AI tutor were game-changers. Got a 45!</blockquote>
-  <cite><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='14' cy='14' r='14' fill='%23e2e8f0'/%3E%3Ctext x='14' y='18' text-anchor='middle' font-size='14' fill='%236b7a99'%3E👤%3C/text%3E%3C/svg%3E"> Emma L. <span>· IB Diploma 45/45 · Class of 2025</span></cite>
+<div class="testi">
+  <blockquote>"Atlas completely transformed my IB preparation. The video walkthroughs and progress tracking helped me achieve a perfect score."</blockquote>
+  <cite>— Emma L. <span>IB Diploma 45/45 · Class of 2025</span></cite>
 </div>
 
 <footer>
   <div class="footer-inner">
-    <div><h4>Atlas</h4><a href="#">About</a><a href="#">Contact</a><a href="#">Careers</a></div>
-    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a><a href="#">Mathematics</a></div>
-    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Topic Questions</a><a href="#">Video Tutorials</a><a href="#">Study Guides</a></div>
+    <div><h4>Atlas Revision</h4><a href="#">About</a><a href="#">Contact</a></div>
+    <div><h4>Subjects</h4><a href="#">Biology</a><a href="#">Chemistry</a><a href="#">Physics</a></div>
+    <div><h4>Resources</h4><a href="#">Past Papers</a><a href="#">Video Tutorials</a><a href="#">Study Guides</a></div>
     <div><h4>Support</h4><a href="#">FAQ</a><a href="#">Privacy</a><a href="#">Terms</a></div>
   </div>
-  <div class="footer-bottom">© 2026 Atlas Revision. Built for IB excellence.</div>
+  <div class="foot-bottom">© 2026 Atlas Revision. All rights reserved.</div>
 </footer>
 
 </body>
